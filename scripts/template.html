@@ -116,6 +116,7 @@ nav.tabs button[aria-selected="true"]{background:var(--tint);color:var(--blue)}
 .ev .tm{font-weight:800;font-variant-numeric:tabular-nums;color:var(--navy);line-height:1.25}
 .ev .tm small{display:block;font-weight:600;font-size:13px;color:var(--muted)}
 .ev .tt{font-weight:700;line-height:1.35}
+.ev .own{display:flex;flex-direction:column;gap:2px;margin-top:5px;font-size:14.5px;font-weight:700;color:var(--navy)}.ev .own span::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--sky-deep);margin-inline-end:7px;vertical-align:2px}
 .ev .nt{font-size:14.5px;color:var(--muted);margin-top:2px}
 .tag{display:inline-block;font-size:12px;font-weight:800;padding:0 8px;border-radius:999px;margin-inline-end:6px;vertical-align:2px;white-space:nowrap}
 .k-flight{background:#F1F3FE;border-inline-start-color:#5B6CD9}.k-flight .tag{background:#5B6CD9;color:#fff}
@@ -340,11 +341,19 @@ function dayCard(d, title) {
   h += '<button class="linkbtn" data-goday="' + d + '">ללוח הזמנים של היום ‹</button></div>';
   return h;
 }
+function noteHTML(n) {
+  if (!n) return '';
+  if (n.indexOf('אחראים:') !== 0) return '<div class="nt">' + esc(n) + '</div>';
+  const parts = n.replace(/^אחראים:\s*/, '').split(/(?<=\.)\s+/);
+  const own = [], rest = [];
+  parts.forEach((p, k) => (k === 0 || /^(ליווי לשדה|קבלה בדלהי|שינוע לשדה|הסעה ממאניפור)/.test(p) || /עד המלון בדלהי/.test(p) ? own : rest).push(p.replace(/\.$/, '')));
+  return '<div class="own">' + own.map(x => '<span>' + esc(x) + '</span>').join('') + '</div>' + (rest.length ? '<div class="nt">' + esc(rest.join('. ') + '.') + '</div>' : '');
+}
 function evRow(e) {
   const K = KIND[e.kind] || ['', 'k-program'];
   const src = e.kind === 'partner' && SRC[e.source] ? SRC[e.source] : K[0];
   return '<div class="ev ' + K[1] + '"><div class="tm">' + (e.time ? '<span class="num">' + e.time + '</span>' : 'כל היום') + (e.end ? '<small>עד <span class="num">' + e.end + '</span></small>' : '') + (e.to ? '<small>עד ' + dshort(e.to) + '</small>' : '') + '</div>' +
-    '<div><div class="tt"><span class="tag">' + esc(src) + '</span>' + esc(e.text) + '</div>' + (e.note ? '<div class="nt">' + esc(e.note) + '</div>' : '') + '</div></div>';
+    '<div><div class="tt"><span class="tag">' + esc(src) + '</span>' + esc(e.text) + '</div>' + noteHTML(e.note) + '</div></div>';
 }
 function renderHome(m) {
   const T = D.olim;

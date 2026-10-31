@@ -1,0 +1,5 @@
+# Raw exports from the full system hold personal data of olim. Never commit them.
+db/
+_db/
+*.raw.json
+__pycache__/

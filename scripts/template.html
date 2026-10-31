@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>לוח העלייה, כנפי שחר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F2B5B; --blue:#1D5BA6; --sky-deep:#2F9FD8; --sky:#CFE6F6; --sky-2:#BFEAF7; --hero:#EDF5FC;
+  --bg:#F6F9FC; --surface:#FFFFFF; --surface2:#F3F7FC; --ink:#13223F; --muted:#58667E; --line:#E2E9F2;
+  --tint:#E8F2FC; --save:#1D7A55; --save-soft:#E3F3EC; --over:#C2412F; --over-soft:#FBE9E6; --warm:#B4561A; --warm-soft:#FFF4E5;
+  --sans:"Assistant","Segoe UI","Arial Hebrew",Arial,sans-serif;
+  --numf:"Barlow Condensed","Assistant","Segoe UI",Arial,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:#fff;scroll-padding-top:120px;-webkit-text-size-adjust:100%}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,select{font:inherit;color:inherit}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px 64px}
+
+/* app bar */
+.appbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.97);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.appbar .in{max-width:1160px;margin:0 auto;padding:10px 20px 0;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--navy);min-width:0}
+.brand svg{width:36px;height:30px;color:var(--sky-deep);flex:none}
+.brand b{font-weight:800;font-size:18px;display:block;line-height:1.2}
+.brand small{display:block;font-size:13px;color:var(--blue);font-weight:600;line-height:1.2}
+.spacer{flex:1}
+.ja{height:34px;width:auto;display:block}
+nav.tabs{max-width:1160px;margin:0 auto;padding:8px 14px 10px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{background:none;border:0;color:var(--muted);padding:7px 16px;border-radius:999px;font-weight:700;font-size:16px;cursor:pointer;white-space:nowrap}
+nav.tabs button:hover{background:var(--surface2);color:var(--ink)}
+nav.tabs button[aria-selected="true"]{background:var(--tint);color:var(--blue)}
+@media (max-width:640px){.ja{height:26px}.brand b{font-size:16px}nav.tabs button{font-size:15px;padding:7px 12px}}
+
+/* hero */
+.band{margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%);background:var(--hero);border-bottom:1px solid var(--line)}
+.hero{padding:26px 0 26px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.hero svg.logo{width:118px;height:119px;display:block}
+.hero h1{color:var(--navy);font-weight:800;font-size:28px;line-height:1.15;margin:0 0 4px}
+.hero .lead{color:var(--muted);margin:0 0 14px;font-size:15.5px}
+.figs{display:flex;gap:26px;flex-wrap:wrap}
+.figs div{display:flex;flex-direction:column}
+.figs b{font-family:var(--numf);font-weight:700;font-size:40px;line-height:1;color:var(--navy)}
+.figs span{font-size:14px;color:var(--muted);font-weight:600}
+@media (max-width:640px){.hero{grid-template-columns:1fr;gap:12px}.hero svg.logo{width:78px;height:79px}.hero h1{font-size:24px}.figs{gap:18px}.figs b{font-size:34px}}
+
+.page-head{padding:24px 0 14px}
+.page-head h1{margin:0;font-size:24px;font-weight:800;color:var(--navy)}
+.page-head p{margin:2px 0 0;color:var(--muted);font-size:15px}
+.grid{display:grid;gap:18px}
+.grid>*{min-width:0}
+.g2{grid-template-columns:1fr 1fr}.gs{grid-template-columns:1.5fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){.g3{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.g2,.gs,.g3{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 22px}
+.panel h2{font-size:18px;margin:0 0 2px;font-weight:700;color:var(--navy)}
+.panel .sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+@media (max-width:600px){.wrap{padding:0 14px 56px}.panel{padding:16px}}
+.note{font-size:13.5px;color:var(--muted)}
+.empty{padding:28px 10px;text-align:center;color:var(--muted)}
+.empty b{display:block;color:var(--navy);font-size:17px;margin-bottom:4px}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:18px;background:var(--surface);margin:0 0 18px}
+.kpis>div{padding:14px 18px;border-inline-start:1px solid var(--line)}
+.kpis>div:first-child{border-inline-start:0}
+.kpis label{display:block;color:var(--muted);font-size:14px}
+.kpis .v{font-family:var(--numf);font-size:30px;font-weight:600;color:var(--navy);line-height:1.15}
+@media (max-width:760px){.kpis{grid-template-columns:1fr 1fr}.kpis>div:nth-child(3){border-inline-start:0}.kpis>div:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* home */
+.cds{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0 20px}
+@media (max-width:900px){.cds{grid-template-columns:1fr 1fr}}
+.cd{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;text-align:start;cursor:pointer;min-width:0}
+.cd:hover{border-color:#B7CCE2}
+.cd .k{font-size:13px;color:var(--muted);font-weight:600}
+.cd .d{font-family:var(--numf);font-weight:700;font-size:38px;line-height:1;color:var(--navy);margin-top:4px}
+.cd .d small{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--muted);margin-inline-start:4px}
+.cd .t{font-weight:700;color:var(--ink);line-height:1.3;margin-top:4px}
+.cd .s{font-size:13.5px;color:var(--muted)}
+.cd.soon{border-color:#E8833A;background:#FFF9F2}
+.cd.soon .d{color:#B4561A}
+.dcard h2{display:flex;align-items:baseline;gap:10px}
+.dcard h2 .num{font-family:var(--numf);font-size:28px;color:var(--navy)}
+.dcard h2 small{font-size:14px;color:var(--muted);font-weight:600}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.pill{font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--tint);color:var(--blue)}
+.pill.warm{background:var(--warm-soft);color:var(--warm)}
+.pill.ok{background:var(--save-soft);color:var(--save)}
+.hl{background:var(--surface2);border-radius:12px;padding:9px 12px;font-size:15px;margin:0 0 10px}
+.hl b{color:var(--navy)}
+.wk{list-style:none;margin:0;padding:0}
+.wk li{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.wk li:first-child{border-top:0}
+.wk .dd{font-family:var(--numf);font-weight:700;font-size:22px;color:var(--blue);line-height:1.1}
+.wk .dd small{display:block;font-family:var(--sans);font-size:12.5px;color:var(--muted);font-weight:600}
+.wk .x b{display:block;font-size:15px;color:var(--navy)}
+.wk .x span{font-size:14px;color:var(--muted)}
+.linkbtn{background:none;border:0;color:var(--blue);font-weight:700;cursor:pointer;padding:6px 0;font-size:15px}
+
+/* timeline */
+.ev{display:grid;grid-template-columns:74px 1fr;gap:12px;padding:10px 10px;border-radius:12px;border-inline-start:4px solid transparent;margin-bottom:4px}
+.ev .tm{font-weight:800;font-variant-numeric:tabular-nums;color:var(--navy);line-height:1.25}
+.ev .tm small{display:block;font-weight:600;font-size:13px;color:var(--muted)}
+.ev .tt{font-weight:700;line-height:1.35}
+.ev .nt{font-size:14.5px;color:var(--muted);margin-top:2px}
+.tag{display:inline-block;font-size:12px;font-weight:800;padding:0 8px;border-radius:999px;margin-inline-end:6px;vertical-align:2px;white-space:nowrap}
+.k-flight{background:#F1F3FE;border-inline-start-color:#5B6CD9}.k-flight .tag{background:#5B6CD9;color:#fff}
+.k-olim{background:#EAF6F1;border-inline-start-color:#2C9A7A}.k-olim .tag{background:#1F7E62;color:#fff}
+.k-partner{background:#FFF7EC;border-inline-start-color:#E8833A}.k-partner .tag{background:#B4561A;color:#fff}
+.k-program{background:var(--surface2);border-inline-start-color:var(--sky-deep)}.k-program .tag{background:var(--blue);color:#fff}
+.k-welcome{background:#FDF1F4;border-inline-start-color:#C2416B}.k-welcome .tag{background:#A8325A;color:#fff}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px;color:var(--muted);margin:2px 0 12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+/* day strip */
+.daystrip{display:flex;gap:6px;overflow-x:auto;padding:16px 2px 10px;scrollbar-width:thin}
+.day{flex:none;width:56px;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:6px 0 6px;display:flex;flex-direction:column;align-items:center;gap:0;cursor:pointer;color:var(--ink)}
+.day span{font-size:12.5px;color:var(--muted);font-weight:700}
+.day b{font-family:var(--numf);font-size:19px;font-weight:600;line-height:1.2}
+.day i{width:5px;height:5px;border-radius:50%;margin-top:2px;background:transparent}
+.day i.on{background:var(--sky-deep)}
+.day.sat span{color:var(--blue)}
+.day.today{border-color:var(--sky-deep);border-width:2px}
+.day[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.day[aria-pressed="true"] span{color:#CFE6F6}
+.day[aria-pressed="true"] i.on{background:#fff}
+.dayhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:6px 0 4px}
+.dayhead h2{margin:0;font-size:26px;font-weight:800;color:var(--navy)}
+.dayhead .num{font-family:var(--numf);font-size:30px;font-weight:700;color:var(--navy)}
+.daynav{display:flex;gap:8px;margin-inline-start:auto}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 15px;cursor:pointer;font-weight:700;white-space:nowrap;color:var(--navy);font-size:14.5px}
+.btn:hover{background:var(--surface2)}
+.btn:disabled{opacity:.45;cursor:default}
+.where{list-style:none;margin:0;padding:0}
+.where li{padding:9px 0;border-top:1px solid var(--line)}
+.where li:first-child{border-top:0}
+.where b{color:var(--navy);display:block}
+.where span{font-size:14.5px;color:var(--ink)}
+.where .c{font-family:var(--numf);font-weight:700;font-size:22px;color:var(--blue);float:inline-end}
+.nights{display:flex;align-items:flex-end;gap:4px;height:150px;padding-top:18px;overflow-x:auto}
+.nights button{flex:1;min-width:30px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;background:none;border:0;cursor:pointer;padding:0}
+.nights .bar{width:100%;max-width:34px;background:var(--sky-deep);border-radius:6px 6px 0 0;min-height:2px}
+.nights .v{font-family:var(--numf);font-weight:700;font-size:14px;color:var(--navy)}
+.nights .d{font-size:11.5px;color:var(--muted);margin-top:4px;white-space:nowrap}
+.nights button.sel .bar{background:var(--navy)}
+.places{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.place{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface)}
+.place b{color:var(--navy);display:block}
+.place small{display:block;color:var(--blue);font-weight:700;font-size:13px}
+.place p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-weight:700;color:var(--muted);text-align:start;padding:8px;border-bottom:1px solid var(--line);font-size:13.5px;white-space:nowrap}
+td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:end}
+.tbl-wrap{overflow-x:auto}
+
+/* olim */
+.segtabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 13px;font-size:14px;font-weight:700;cursor:pointer;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.filters{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:0 0 16px}
+@media (max-width:900px){.filters{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.filters{grid-template-columns:1fr 1fr}}
+.filters label{display:block;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:3px}
+select{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:7px 10px;width:100%}
+.fbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:-6px 0 14px;font-size:14px;color:var(--muted)}
+.tkflights{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:0 0 8px}
+@media (max-width:1000px){.tkflights{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.tkflights{grid-template-columns:1fr 1fr}}
+.tkfl{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 12px;text-align:start;cursor:pointer;display:flex;flex-direction:column;gap:1px}
+.tkfl.on{border-color:var(--navy);box-shadow:0 0 0 1px var(--navy)}
+.tkfl .t{font-weight:800;color:var(--navy);font-size:14.5px}
+.tkfl .k{font-size:12.5px;color:var(--muted)}
+.tkfl b{font-family:var(--numf);font-size:32px;font-weight:700;color:var(--navy);line-height:1.05}
+.tkfl .s{font-size:12.5px;color:var(--muted)}
+.tkfl .vz{font-size:12.5px;color:var(--save);font-weight:700;margin-top:2px}
+.tkfl .mix{display:flex;height:6px;border-radius:3px;overflow:hidden;margin-top:6px;background:var(--line)}
+.tkbars{display:flex;flex-direction:column;gap:7px}
+.tkbar{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;gap:10px;align-items:center;background:none;border:0;padding:3px 4px;border-radius:8px;cursor:pointer;text-align:start;width:100%}
+.tkbar:hover{background:var(--surface2)}
+.tkbar.on{background:var(--tint)}
+.tkbar .l{font-size:14.5px;line-height:1.25}
+.tkbar .b{height:9px;background:var(--surface2);border-radius:5px;overflow:hidden}
+.tkbar .b i{display:block;height:100%;background:var(--sky-deep);border-radius:5px}
+.tkbar .c{font-size:13px;color:var(--muted);white-space:nowrap}
+.tkbar .c b{font-family:var(--numf);font-size:18px;color:var(--navy);margin-inline-end:4px}
+.pyr{display:flex;flex-direction:column;gap:5px}
+.pyr-h,.pyr-r{display:grid;grid-template-columns:1fr 92px 1fr;gap:8px;align-items:center}
+.pyr-h{font-size:13px;color:var(--muted);font-weight:700}
+.pyr-h span:last-child{text-align:end}
+.pyr-r{background:none;border:0;padding:2px 0;cursor:pointer;border-radius:6px}
+.pyr-r.on{background:var(--tint)}
+.pyr-r .lab{text-align:center;font-size:13px;color:var(--ink)}
+.pyr-r .m,.pyr-r .f{display:flex;align-items:center;gap:6px}
+.pyr-r .m{flex-direction:row-reverse;justify-content:flex-start}
+.pyr-r i{height:14px;border-radius:3px;display:block}
+.pyr-r .m i{background:var(--navy)}.pyr-r .f i{background:var(--sky-deep)}
+.pyr-r b{font-family:var(--numf);font-size:15px;color:var(--navy);min-width:22px}
+table.pv td.pvc{text-align:end;font-family:var(--numf);font-size:17px;font-weight:600}
+table.pv th.rh{color:var(--ink);font-weight:700;font-size:14.5px;white-space:normal}
+table.pv tr.tot td,table.pv tr.tot th{border-top:2px solid var(--navy);font-weight:800;color:var(--navy)}
+.prog{height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;min-width:80px;margin-top:5px}
+.prog i{display:block;height:100%;background:var(--save)}
+
+/* ceremonies */
+.wcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px 20px;margin-bottom:14px}
+.whead{display:flex;gap:16px;align-items:flex-start;margin-bottom:8px}
+.whead .dt{min-width:72px}
+.whead .dt small{display:block;font-size:13px;color:var(--muted);font-weight:700}
+.whead .dt b{font-family:var(--numf);font-size:32px;font-weight:700;color:var(--navy);line-height:1}
+.whead h3{margin:0;font-size:18px;color:var(--navy)}
+.wf{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:15px}
+.wf .l{color:var(--muted);font-weight:700}
+.miss{display:inline-block;background:var(--over-soft);color:var(--over);font-weight:800;font-size:12.5px;border-radius:999px;padding:0 9px}
+@media (max-width:560px){.wf{grid-template-columns:1fr;gap:2px}}
+
+footer{border-top:1px solid var(--line);background:#fff;padding:20px 0 calc(20px + env(safe-area-inset-bottom,0px))}
+footer .in{max-width:1160px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13.5px;flex-wrap:wrap}
+footer svg{width:28px;height:24px;color:var(--sky-deep)}
+</style>
+</head>
+<body>
+<!--__SYMBOLS__-->
+<header class="appbar">
+  <div class="in">
+    <div class="brand"><svg aria-hidden="true"><use href="#dove"/></svg><span><b>לוח העלייה</b><small>מבצע כנפי שחר, נובמבר 2026</small></span></div>
+    <span class="spacer"></span>
+    <img class="ja" src="__JA__" alt="הסוכנות היהודית">
+  </div>
+  <nav class="tabs" role="tablist" aria-label="אזורים">
+    <button role="tab" data-area="home" aria-selected="true">עמוד ראשי</button>
+    <button role="tab" data-area="schedule" aria-selected="false">לוח זמנים</button>
+    <button role="tab" data-area="olim" aria-selected="false">עולים</button>
+    <button role="tab" data-area="welcomes" aria-selected="false">טקסים</button>
+  </nav>
+</header>
+<main class="wrap" id="main"></main>
+<footer><div class="in"><svg aria-hidden="true"><use href="#dove"/></svg><span id="foot"></span></div></footer>
+
+<script>
+const D = /*__DATA__*/null;
+const S = { area: 'home', day: null, tkView: 'overview', F: {}, pv: { rows: 'sg', cols: 'pop' } };
+const $ = (q, r) => (r || document).querySelector(q);
+const $$ = (q, r) => [...(r || document).querySelectorAll(q)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const plain = n => Number(n || 0).toLocaleString('he-IL');
+const WD = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+const WL = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'];
+const dobj = iso => new Date(iso + 'T12:00:00Z');
+const wday = iso => dobj(iso).getUTCDay();
+const dshort = iso => { if (!iso) return ''; const p = iso.split('-'); return Number(p[2]) + '.' + Number(p[1]); };
+const addDays = (iso, n) => { const d = dobj(iso); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const diffDays = (a, b) => Math.round((dobj(b) - dobj(a)) / 864e5);
+const TODAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jerusalem', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+const DAYS = []; for (let d = D.start; d <= D.end; d = addDays(d, 1)) DAYS.push(d);
+const FOCUS = TODAY < D.start ? D.start : TODAY > D.end ? D.end : TODAY;
+const inRange = TODAY >= D.start && TODAY <= D.end;
+
+const PLACE = {}; (D.places || []).forEach(p => PLACE[p.id] = p);
+const LOC = { DEL: 'דלהי', AIZ: 'אייזול', IMF: 'מאניפור', IL: 'ישראל', TLV: 'ישראל' };
+const placeName = (id, loc) => PLACE[id] ? (PLACE[id].short || PLACE[id].name) : (LOC[loc] || id || '');
+const KIND = { flight: ['טיסה', 'k-flight'], olim: ['עולים', 'k-olim'], partner: ['שותפים', 'k-partner'], program: ['משלחת הרבנים', 'k-program'], welcome: ['קבלת פנים', 'k-welcome'] };
+const SRC = { kh: 'קרן היסוד', donors: 'קשרי תורמים', rabbis: 'משלחת הרבנים', gantt: 'גאנט' };
+
+/* ---------- derived ---------- */
+function dayEvents(d) {
+  const L = D.events.filter(e => e.date === d && e.kind !== 'headline').map(e => Object.assign({}, e));
+  (D.welcomes || []).filter(w => w.date === d).forEach(w => L.push({ date: d, time: w.time, kind: 'welcome', text: 'קבלת פנים בנתב״ג: ' + w.title, note: (w.olim ? w.olim + ' עולים. ' : '') + (((w.fields || []).find(f => f.l === 'טיסה') || {}).v || '') }));
+  return L.sort((a, b) => (a.time || '00:00') < (b.time || '00:00') ? -1 : (a.time || '00:00') > (b.time || '00:00') ? 1 : 0);
+}
+const heads = d => D.events.filter(e => e.date === d && e.kind === 'headline');
+const olimNight = d => (D.groups || []).filter(o => o.from <= d && d < o.to).reduce((s, o) => s + (o.count || 0), 0);
+function whoWhere(d) {
+  const by = {};
+  (D.people || []).forEach(p => p.segs.forEach(s => { if (s.from <= d && d < s.to) { const k = placeName(s.place, s.loc); (by[k] = by[k] || []).push(p); } }));
+  return by;
+}
+const flightsTo = () => ((D.olim && D.olim.flights) || []);
+function flightCount(f) { return cubeRows().filter(r => r[0] === f).reduce((s, r) => s + r[11], 0); }
+
+/* ---------- nav ---------- */
+document.querySelector('nav.tabs').addEventListener('click', e => {
+  const b = e.target.closest('button[data-area]'); if (!b) return;
+  go(b.dataset.area);
+});
+function go(area, day) {
+  S.area = area; if (day) S.day = day;
+  $$('nav.tabs button').forEach(x => x.setAttribute('aria-selected', String(x.dataset.area === area)));
+  try { history.replaceState(null, '', '#' + area + (area === 'schedule' && S.day ? '/' + S.day : '')); } catch (e) {}
+  render(); window.scrollTo({ top: 0 });
+}
+function render() {
+  const m = $('#main');
+  ({ home: renderHome, schedule: renderSchedule, olim: renderOlim, welcomes: renderWelcomes }[S.area] || renderHome)(m);
+}
+
+/* ---------- home ---------- */
+function milestones() {
+  const M = [];
+  const firstDelhi = (D.groups || []).reduce((a, o) => !a || o.from < a.from ? o : a, null);
+  if (firstDelhi) M.push({ date: firstDelhi.from, k: 'עולים מגיעים לדלהי', t: 'קבוצה ' + firstDelhi.id + ', ' + firstDelhi.count + ' עולים', s: firstDelhi.origin });
+  flightsTo().forEach(f => { const n = flightCount(f.f); M.push({ date: f.date, k: 'טיסה ' + f.f + ' לישראל', t: plain(n) + ' עולים, ' + (f.carrier || ''), s: f.escort ? 'מלווה: ' + f.escort : '' }); });
+  (D.welcomes || []).forEach(w => M.push({ date: w.date, k: 'קבלת פנים בנתב״ג', t: w.title, s: w.time ? 'נחיתה ' + w.time : '' }));
+  const upcoming = M.filter(x => x.date >= TODAY).sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+  const seen = new Set(); return upcoming.filter(x => { const k = x.date + x.k; if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 4);
+}
+function untilLabel(d) {
+  const n = diffDays(TODAY, d);
+  if (n === 0) return '<div class="d">היום</div>';
+  if (n === 1) return '<div class="d">מחר</div>';
+  return '<div class="d"><span class="num">' + n + '</span><small>ימים</small></div>';
+}
+function dayCard(d, title) {
+  const E = dayEvents(d), H = heads(d), night = olimNight(d);
+  const key = E.filter(e => e.kind !== 'program');
+  const prog = E.filter(e => e.kind === 'program');
+  let h = '<div class="panel dcard"><h2>' + title + ' <span class="num">' + dshort(d) + '</span><small>יום ' + WD[wday(d)] + '</small></h2><div class="pills">' +
+    (night ? '<span class="pill">' + plain(night) + ' עולים בדלהי הלילה</span>' : '') + '</div>';
+  H.forEach(x => h += '<div class="hl"><b>' + esc(SRC[x.source] || '') + ':</b> ' + esc(x.text) + '</div>');
+  const li = E2 => E2.map(e => evRow(e)).join('');
+  if (key.length) h += li(key.slice(0, 6));
+  if (prog.length) h += '<p class="note" style="margin:10px 0 4px">בלו״ז של משלחת הרבנים</p>' + li(prog.slice(0, 4));
+  if (!E.length && !H.length) h += '<p class="note">אין אירועים מיוחדים ביום הזה.</p>';
+  h += '<button class="linkbtn" data-goday="' + d + '">ללוח הזמנים של היום ‹</button></div>';
+  return h;
+}
+function evRow(e) {
+  const K = KIND[e.kind] || ['', 'k-program'];
+  const src = e.kind === 'partner' && SRC[e.source] ? SRC[e.source] : K[0];
+  return '<div class="ev ' + K[1] + '"><div class="tm">' + (e.time ? '<span class="num">' + e.time + '</span>' : 'כל היום') + (e.end ? '<small>עד <span class="num">' + e.end + '</span></small>' : '') + (e.to ? '<small>עד ' + dshort(e.to) + '</small>' : '') + '</div>' +
+    '<div><div class="tt"><span class="tag">' + esc(src) + '</span>' + esc(e.text) + '</div>' + (e.note ? '<div class="nt">' + esc(e.note) + '</div>' : '') + '</div></div>';
+}
+function renderHome(m) {
+  const T = D.olim;
+  const total = T ? T.total : 0;
+  const hh = T ? T.hh.reduce((s, r) => s + r[5], 0) : 0;
+  const V = D.visa || {}; let ok = 0; Object.values(V).forEach(v => ok += Number(v.ok || 0));
+  const ms = milestones();
+  let h = '<div class="band"><div class="hero"><svg class="logo" aria-hidden="true"><use href="#kanfei-l"/></svg><div><h1>גל שני: מדלהי לישראל</h1>' +
+    '<p class="lead">' + dshort(D.start) + ' עד ' + dshort(D.end) + '.2026. מה קורה בכל יום, איפה העולים, מי טס ומתי, ואיך נראות קבלות הפנים בנתב״ג.</p>' +
+    '<div class="figs"><div><b class="num">' + plain(total) + '</b><span>עולים</span></div><div><b class="num">' + plain(hh) + '</b><span>בתי אב</span></div><div><b class="num">' + flightsTo().length + '</b><span>טיסות לישראל</span></div><div><b class="num">' + (T ? T.subgroups.length : 0) + '</b><span>קבוצות בטיסות פנים</span></div></div></div></div></div>';
+  if (ms.length) h += '<div class="cds">' + ms.map(x => '<button class="cd' + (diffDays(TODAY, x.date) <= 1 ? ' soon' : '') + '" data-goday="' + x.date + '"><span class="k">' + esc(x.k) + ' · ' + dshort(x.date) + '</span>' + untilLabel(x.date) + '<span class="t">' + esc(x.t) + '</span><span class="s">' + esc(x.s || '') + '</span></button>').join('') + '</div>';
+  else h += '<div style="height:20px"></div>';
+  const d1 = FOCUS, d2 = addDays(FOCUS, 1);
+  h += '<div class="grid g2">' + dayCard(d1, inRange ? 'היום' : (TODAY < D.start ? 'היום הראשון' : 'היום האחרון')) + (d2 <= D.end ? dayCard(d2, inRange ? 'מחר' : 'היום שאחריו') : '') + '</div>';
+  const wk = DAYS.filter(d => d > d2).slice(0, 7);
+  if (wk.length) {
+    h += '<div class="grid g2" style="margin-top:18px"><div class="panel"><h2>השבוע שאחר כך</h2><p class="sub">לחיצה על יום פותחת אותו בלוח הזמנים</p><ul class="wk">' + wk.map(d => {
+      const E = dayEvents(d).filter(e => e.kind !== 'program'); const n = olimNight(d);
+      const fl = E.filter(e => e.kind === 'flight' && /לישראל/.test(e.text));
+      const line = fl.length ? fl[0].text : E.length ? E[0].text : 'אין אירועים מיוחדים';
+      return '<li data-goday="' + d + '"><span class="dd"><small>יום ' + WD[wday(d)] + '</small>' + dshort(d) + '</span><span class="x"><b>' + esc(line) + '</b><span>' + (n ? plain(n) + ' עולים בדלהי' : '') + (E.length > 1 ? (n ? ', ' : '') + 'ועוד ' + (E.length - 1) + ' אירועים' : '') + '</span></span></li>';
+    }).join('') + '</ul></div>';
+    h += '<div class="panel"><h2>טיסות לישראל</h2><p class="sub">מספרי העולים לפי קובץ הטיסות</p><div class="tbl-wrap"><table><thead><tr><th>טיסה</th><th>תאריך</th><th class="n">עולים</th><th>מלווה</th><th>רשות האוכלוסין</th></tr></thead><tbody>' +
+      flightsTo().map(f => { const n = flightCount(f.f); const v = V[f.f] || {}; return '<tr><td><b>' + f.f + '</b> ' + esc(f.carrier || '') + '</td><td>' + dshort(f.date) + '</td><td class="n"><b class="num">' + plain(n) + '</b></td><td>' + esc(f.escort || '') + '</td><td>' + vzText(v, n) + '</td></tr>'; }).join('') + '</tbody></table></div></div></div>';
+  }
+  h += '<div class="kpis" style="margin-top:18px">' + kp('נפשות', plain(total)) + kp('בתי אב', plain(hh)) + kp('קבלות פנים בנתב״ג', (D.welcomes || []).length) + kp('אושרו ברשות האוכלוסין', total ? Math.round(ok / total * 100) + '%' : '0%') + '</div>';
+  m.innerHTML = h; bindGo(m);
+}
+const kp = (l, v) => '<div><label>' + l + '</label><div class="v num">' + v + '</div></div>';
+function vzText(v, tot) {
+  if (!v || !Number(v.sent)) return '<span class="note">טרם הועברו</span>';
+  const ok = Number(v.ok || 0), miss = Number(v.miss || 0);
+  return '<span class="num">' + ok + '</span> מתוך <span class="num">' + (tot || v.sent) + '</span> אושרו' + (miss ? ', <span class="num">' + miss + '</span> בחוסרים' : '');
+}
+function bindGo(m) { $$('[data-goday]', m).forEach(b => b.onclick = () => go('schedule', b.dataset.goday)); }
+
+/* ---------- schedule ---------- */
+function renderSchedule(m) {
+  if (!S.day || DAYS.indexOf(S.day) < 0) S.day = FOCUS;
+  const d = S.day, i = DAYS.indexOf(d);
+  const E = dayEvents(d), H = heads(d), night = olimNight(d), W = whoWhere(d);
+  let h = '<div class="page-head"><h1>לוח זמנים</h1><p>מ-' + dshort(D.start) + ' עד ' + dshort(D.end) + '. מה קורה בכל יום, מי נמצא איפה ואיפה העולים.</p></div>';
+  h += '<div class="daystrip" role="group" aria-label="בחירת יום">' + DAYS.map(x => '<button class="day' + (wday(x) === 6 ? ' sat' : '') + (x === TODAY ? ' today' : '') + '" data-day="' + x + '" aria-pressed="' + (x === d) + '"><span>' + WL[wday(x)] + '</span><b class="num">' + dshort(x) + '</b><i class="' + (dayEvents(x).some(e => e.kind !== 'program') ? 'on' : '') + '"></i></button>').join('') + '</div>';
+  h += '<div class="grid gs">';
+  h += '<div class="panel"><div class="dayhead"><h2>יום ' + WD[wday(d)] + '</h2><span class="num">' + dshort(d) + '</span><span class="daynav"><button class="btn" data-step="-1"' + (i <= 0 ? ' disabled' : '') + '>הקודם</button><button class="btn" data-step="1"' + (i >= DAYS.length - 1 ? ' disabled' : '') + '>הבא</button></span></div>' +
+    '<div class="pills">' + (d === TODAY ? '<span class="pill ok">היום</span>' : '') + (night ? '<span class="pill">' + plain(night) + ' עולים בדלהי הלילה</span>' : '') + (wday(d) === 6 ? '<span class="pill warm">שבת</span>' : '') + '</div>';
+  H.forEach(x => h += '<div class="hl"><b>' + esc(SRC[x.source] || '') + ':</b> ' + esc(x.text) + '</div>');
+  h += '<div class="legend">' + ['flight', 'olim', 'partner', 'welcome', 'program'].filter(k => E.some(e => e.kind === k)).map(k => '<span><i style="background:' + { flight: '#5B6CD9', olim: '#2C9A7A', partner: '#E8833A', welcome: '#C2416B', program: '#2F9FD8' }[k] + '"></i>' + KIND[k][0] + '</span>').join('') + '</div>';
+  h += E.length ? E.map(evRow).join('') : '<p class="note">אין אירועים מיוחדים ביום הזה.</p>';
+  h += '</div>';
+  const places = Object.keys(W);
+  h += '<div class="panel"><h2>איפה ישנים הלילה</h2><p class="sub">צוות ומשלחות, לפי הגאנט</p><ul class="where">' +
+    (night ? '<li><span class="c num">' + plain(night) + '</span><b>מלון העולים בדלהי</b><span>' + (D.groups || []).filter(o => o.from <= d && d < o.to).map(o => 'קבוצה ' + esc(o.id)).join(', ') + '</span></li>' : '') +
+    places.map(k => { const L = W[k]; const n = L.reduce((s, p) => s + (p.count || 1), 0); return '<li><span class="c num">' + n + '</span><b>' + esc(k) + '</b><span>' + L.map(p => esc(p.name)).join(', ') + '</span></li>'; }).join('') +
+    (!night && !places.length ? '<li><span class="note">אין נתונים ללילה הזה</span></li>' : '') + '</ul></div>';
+  h += '</div>';
+
+  const mx = Math.max(1, ...DAYS.map(olimNight));
+  h += '<div class="panel" style="margin-top:18px"><h2>עולים בדלהי, לילה אחרי לילה</h2><p class="sub">לחיצה על לילה פותחת את היום</p><div class="nights">' +
+    DAYS.map(x => { const n = olimNight(x); return '<button data-day="' + x + '" class="' + (x === d ? 'sel' : '') + '"><span class="v num">' + (n || '') + '</span><span class="bar" style="height:' + (n / mx * 100) + '%"></span><span class="d num">' + dshort(x) + '</span></button>'; }).join('') + '</div></div>';
+
+  h += '<div class="panel" style="margin-top:18px"><h2>מלונות ומקומות</h2><p class="sub">איפה נמצאים העולים והצוות</p><div class="places">' +
+    (D.places || []).map(p => '<div class="place"><b>' + esc(p.name) + '</b><small>' + esc(p.city || '') + '</small>' + (p.note ? '<p>' + esc(p.note) + '</p>' : '') + (p.query ? '<p><a href="https://www.google.com/maps/search/' + encodeURIComponent(p.query) + '" target="_blank" rel="noopener">במפה</a></p>' : '') + '</div>').join('') + '</div></div>';
+
+  h += '<div class="panel" style="margin-top:18px"><h2>אנשי הצוות</h2><p class="sub">מי נמצא איפה, מ-' + dshort(D.start) + '</p><div class="tbl-wrap"><table><thead><tr><th>שם</th><th>תפקיד</th><th>איפה ומתי</th></tr></thead><tbody>' +
+    (D.people || []).map(p => '<tr><td><b>' + esc(p.name) + '</b>' + (p.count > 1 ? ' <span class="note">(' + p.count + ')</span>' : '') + '</td><td>' + esc(p.role) + '</td><td>' + p.segs.map(s => esc(placeName(s.place, s.loc)) + ' <span class="num">' + dshort(s.from) + '</span> עד <span class="num">' + dshort(s.to) + '</span>').join('<br>') + '</td></tr>').join('') + '</tbody></table></div></div>';
+  m.innerHTML = h;
+  $$('[data-day]', m).forEach(b => b.onclick = () => { S.day = b.dataset.day; try { history.replaceState(null, '', '#schedule/' + S.day); } catch (e) {} renderSchedule(m); const el = $('.day[aria-pressed="true"]', m); el && el.scrollIntoView({ block: 'nearest', inline: 'center' }); });
+  $$('[data-step]', m).forEach(b => b.onclick = () => { const j = i + Number(b.dataset.step); if (DAYS[j]) { S.day = DAYS[j]; renderSchedule(m); } });
+  requestAnimationFrame(() => { const el = $('.day[aria-pressed="true"]', m); if (el) el.scrollIntoView({ block: 'nearest', inline: 'center' }); });
+}
+
+/* ---------- olim control table (counts only) ---------- */
+const POP = { mizoram: 'מיזורם', manipur: 'מאניפור', manipurMizo: 'מאניפור דוברי מיזו', manipurNG: 'מאניפור לנוף הגליל' };
+const POP_ORDER = ['mizoram', 'manipur', 'manipurMizo', 'manipurNG'];
+const POP_COLOR = { mizoram: '#2F9FD8', manipur: '#0F2B5B', manipurMizo: '#2C9A7A', manipurNG: '#C48A2C' };
+const BANDS = ['מתחת לגיל 2', '2 עד 4', '5 עד 11', '12 עד 17', '18 עד 29', '30 עד 49', '50 עד 64', '65 ומעלה', 'לא ידוע'];
+const FARES = { infant: 'תינוק (מתחת ל-2)', child: 'ילד (2 עד 11)', adult: 'מבוגר (12 ומעלה)' };
+const PP = { ok: 'בתוקף', short: 'פחות מחצי שנה', expired: 'פג לפני הטיסה', none: 'לא ידוע' };
+const ISS = { pp_expired: 'דרכון פג לפני מועד הטיסה', pp_short: 'דרכון בתוקף פחות מחצי שנה אחרי הטיסה', noFamEn: 'אין שם משפחה באנגלית בקובץ', noSurPP: 'אין שם משפחה בדרכון', dupEl: 'מספר זכאות כפול', wch: 'צריך כיסא גלגלים', preg: 'הריון מתקדם, לבדוק אישור רפואי לטיסה', dmu: 'יוצאים מדימאפור ולא מאייזול' };
+// cube columns: f, sg, pop, center, sex, band, fare, st, hhs, origin, pp, n, issues
+const DIM = {
+  f: { i: 0, label: 'טיסה לישראל', fmt: v => { const f = flightsTo().find(x => String(x.f) === String(v)); return 'טיסה ' + v + (f ? ' · ' + dshort(f.date) : ''); }, ord: v => Number(v), hh: 0 },
+  sg: { i: 1, label: 'קבוצה (טיסת פנים)', fmt: v => { const s = (D.olim.subgroups || []).find(x => x.id === v); return 'קבוצה ' + v + (s ? ' · ' + dshort(s.dom) : ''); }, ord: v => (D.olim.subgroups || []).findIndex(x => x.id === v), hh: 1 },
+  pop: { i: 2, label: 'אוכלוסייה', fmt: v => POP[v] || v, ord: v => POP_ORDER.indexOf(v), hh: 2 },
+  center: { i: 3, label: 'מרכז קליטה', fmt: v => v, hh: 3 },
+  sex: { i: 4, label: 'מין', fmt: v => v === 'M' ? 'גברים ובנים' : v === 'F' ? 'נשים ובנות' : 'לא ידוע' },
+  band: { i: 5, label: 'קבוצת גיל', fmt: v => v, ord: v => BANDS.indexOf(v) },
+  fare: { i: 6, label: 'סוג כרטיס', fmt: v => FARES[v] || 'לא ידוע', ord: v => ['infant', 'child', 'adult'].indexOf(v) },
+  st: { i: 7, label: 'מצב משפחתי', fmt: v => v },
+  hhs: { i: 8, label: 'גודל בית אב', fmt: v => v === '1' ? 'נפש אחת' : v + ' נפשות', ord: v => parseInt(v, 10), hh: 4 },
+  origin: { i: 9, label: 'יציאה לדלהי', fmt: v => v },
+  pp: { i: 10, label: 'תוקף דרכון', fmt: v => PP[v] || v, ord: v => Object.keys(PP).indexOf(v) }
+};
+const FILTER_KEYS = ['f', 'sg', 'pop', 'center', 'sex', 'fare', 'band', 'hhs'];
+const cubeRows = () => (D.olim && D.olim.cube) || [];
+function match(r, skip) { for (const k in S.F) { if (k === skip || !S.F[k]) continue; if (String(r[DIM[k].i]) !== S.F[k]) return false; } return true; }
+const rowsF = skip => cubeRows().filter(r => match(r, skip));
+const sumN = L => L.reduce((s, r) => s + r[11], 0);
+const hhLevelOnly = () => Object.keys(S.F).every(k => !S.F[k] || DIM[k].hh != null);
+function hhCount() {
+  if (!hhLevelOnly()) return null;
+  return D.olim.hh.filter(r => Object.keys(S.F).every(k => !S.F[k] || String(r[DIM[k].hh]) === S.F[k])).reduce((s, r) => s + r[5], 0);
+}
+function sortVals(vals, k) { const o = DIM[k].ord || (v => v); return vals.slice().sort((a, b) => { const x = o(a), y = o(b); return x < y ? -1 : x > y ? 1 : 0; }); }
+function counts(L, k) { const c = {}; L.forEach(r => { const v = String(r[DIM[k].i]); c[v] = (c[v] || 0) + r[11]; }); return c; }
+
+function renderOlim(m) {
+  if (!D.olim) { m.innerHTML = '<div class="page-head"><h1>עולים</h1></div><div class="panel empty"><b>עוד אין קובץ טיסות</b>הנתונים יופיעו כאן אחרי העדכון הבא.</div>'; return; }
+  const T = D.olim;
+  const views = [['overview', 'תמונת מצב'], ['pivot', 'טבלת חיתוך'], ['domestic', 'טיסות פנים'], ['visa', 'אישורי רשות האוכלוסין'], ['issues', 'לטיפול']];
+  let h = '<div class="page-head"><h1>עולים וטבלת שליטה</h1><p>לפי ' + esc(T.source) + (T.imported ? ', נטען ב-' + dshort(T.imported) : '') + '. ' + plain(T.total) + ' נפשות ב-' + T.flights.length + ' טיסות לישראל. מספרים בלבד, בלי פרטים אישיים.</p></div>';
+  h += '<div class="segtabs" role="tablist">' + views.map(([k, v]) => '<button class="chip" data-v="' + k + '" aria-pressed="' + (S.tkView === k) + '">' + v + '</button>').join('') + '</div>';
+  if (['overview', 'pivot', 'issues'].indexOf(S.tkView) >= 0) {
+    h += '<div class="filters">' + FILTER_KEYS.map(k => { const vals = sortVals(Object.keys(counts(rowsF(k), k)), k); return '<div><label for="f_' + k + '">' + DIM[k].label + '</label><select id="f_' + k + '" data-f="' + k + '"><option value="">הכל</option>' + vals.map(v => '<option value="' + esc(v) + '"' + (S.F[k] === v ? ' selected' : '') + '>' + esc(DIM[k].fmt(v)) + '</option>').join('') + '</select></div>'; }).join('') + '</div>';
+    const act = Object.keys(S.F).filter(k => S.F[k]);
+    if (act.length) h += '<div class="fbar">מסונן לפי: ' + act.map(k => '<b>' + esc(DIM[k].fmt(S.F[k])) + '</b>').join(', ') + ' <button class="btn" id="fclr">ניקוי הסינון</button></div>';
+  }
+  h += '<div id="tkBody"></div>';
+  m.innerHTML = h;
+  $$('[data-v]', m).forEach(b => b.onclick = () => { S.tkView = b.dataset.v; renderOlim(m); });
+  $$('[data-f]', m).forEach(s => s.onchange = () => { S.F[s.dataset.f] = s.value; renderOlim(m); });
+  const c = $('#fclr', m); if (c) c.onclick = () => { S.F = {}; renderOlim(m); };
+  const b = $('#tkBody', m);
+  ({ overview: tkOverview, pivot: tkPivot, domestic: tkDomestic, visa: tkVisa, issues: tkIssues }[S.tkView] || tkOverview)(b);
+}
+function setF(k, v) { S.F[k] = S.F[k] === v ? '' : v; renderOlim($('#main')); }
+function bindSet(root) { $$('[data-set]', root).forEach(x => x.onclick = () => setF(x.dataset.set, x.dataset.val)); }
+
+function tkKpis(L) {
+  const n = sumN(L), hh = hhCount();
+  const by = counts(L, 'fare'), bands = counts(L, 'band');
+  const minors = ['מתחת לגיל 2', '2 עד 4', '5 עד 11', '12 עד 17'].reduce((s, k) => s + (bands[k] || 0), 0);
+  return '<div class="kpis">' + kp('נפשות', plain(n)) + kp('בתי אב', hh == null ? '<span class="note" style="font-size:14px">לא רלוונטי בסינון הזה</span>' : plain(hh)) + kp('קטינים עד 17', plain(minors)) + kp('בני 65 ומעלה', plain(bands['65 ומעלה'] || 0)) + '</div>' +
+    '<div class="kpis">' + kp('כרטיסי תינוק (מתחת ל-2)', plain(by.infant || 0)) + kp('כרטיסי ילד (2 עד 11)', plain(by.child || 0)) + kp('כרטיסי מבוגר (12 ומעלה)', plain(by.adult || 0)) + kp('תיקים בהמתנה', plain(Object.values(D.olim.onHold || {}).reduce((s, x) => s + x, 0))) + '</div>';
+}
+function bars(title, sub, k, L, top) {
+  const c = counts(L, k); let vals = sortVals(Object.keys(c), k);
+  if (top) vals = vals.sort((a, b) => c[b] - c[a]).slice(0, top);
+  const tot = sumN(L) || 1, mx = Math.max(1, ...vals.map(v => c[v]));
+  return '<div class="panel"><h2>' + title + '</h2>' + (sub ? '<p class="sub">' + sub + '</p>' : '<div style="height:10px"></div>') + '<div class="tkbars">' +
+    (vals.length ? vals.map(v => '<button class="tkbar' + (S.F[k] === v ? ' on' : '') + '" data-set="' + k + '" data-val="' + esc(v) + '"><span class="l">' + esc(DIM[k].fmt(v)) + '</span><span class="b"><i style="width:' + (c[v] / mx * 100).toFixed(1) + '%' + (k === 'pop' ? ';background:' + (POP_COLOR[v] || 'var(--sky-deep)') : '') + '"></i></span><span class="c"><b class="num">' + c[v] + '</b><span class="num">' + Math.round(c[v] / tot * 100) + '%</span></span></button>').join('') : '<p class="note">אין נתונים</p>') + '</div></div>';
+}
+function commBars(L) {
+  const keys = new Set(L.map(r => r[0] + '|' + r[1]));
+  const c = {}; (D.olim.comm || []).forEach(r => { if (keys.has(r[0] + '|' + r[1]) && hhLevelOnly() && (!S.F.f || String(r[0]) === S.F.f) && (!S.F.sg || r[1] === S.F.sg)) c[r[2]] = (c[r[2]] || 0) + r[3]; });
+  const vals = Object.keys(c).sort((a, b) => c[b] - c[a]).slice(0, 10); const mx = Math.max(1, ...vals.map(v => c[v])); const tot = Object.values(c).reduce((s, x) => s + x, 0) || 1;
+  return '<div class="panel"><h2>קהילה</h2><p class="sub">10 הקהילות הגדולות. ' + (hhLevelOnly() ? 'מופיע בעיקר בתיקי מיזורם ודוברי מיזו' : 'לא מסונן לפי מין, גיל או כרטיס') + '</p><div class="tkbars">' +
+    (vals.length ? vals.map(v => '<div class="tkbar" style="cursor:default"><span class="l">' + esc(v) + '</span><span class="b"><i style="width:' + (c[v] / mx * 100) + '%"></i></span><span class="c"><b class="num">' + c[v] + '</b><span class="num">' + Math.round(c[v] / tot * 100) + '%</span></span></div>').join('') : '<p class="note">אין נתונים</p>') + '</div></div>';
+}
+function pyramid(L) {
+  const c = {}; BANDS.forEach(b => c[b] = { M: 0, F: 0 });
+  L.forEach(r => { if (c[r[5]] && (r[4] === 'M' || r[4] === 'F')) c[r[5]][r[4]] += r[11]; });
+  const rows = BANDS.filter(b => b !== 'לא ידוע' || c[b].M + c[b].F).slice().reverse();
+  const mx = Math.max(1, ...rows.map(r => Math.max(c[r].M, c[r].F)));
+  return '<div class="panel"><h2>פירמידת גילים</h2><p class="sub">גיל ביום הטיסה לישראל. לחיצה על שורה מסננת לפיה.</p><div class="pyr"><div class="pyr-h"><span>גברים ובנים</span><span></span><span>נשים ובנות</span></div>' +
+    rows.map(r => '<button class="pyr-r' + (S.F.band === r ? ' on' : '') + '" data-set="band" data-val="' + esc(r) + '"><span class="m"><i style="width:' + (c[r].M / mx * 100) + '%"></i><b class="num">' + c[r].M + '</b></span><span class="lab">' + r + '</span><span class="f"><i style="width:' + (c[r].F / mx * 100) + '%"></i><b class="num">' + c[r].F + '</b></span></button>').join('') + '</div></div>';
+}
+function flightCards(L) {
+  return '<div class="tkflights">' + flightsTo().map(f => {
+    const R = L.filter(r => r[0] === f.f); const n = sumN(R);
+    const pc = counts(R, 'pop'); const inf = counts(R, 'fare').infant || 0;
+    return '<button class="tkfl' + (S.F.f === String(f.f) ? ' on' : '') + '" data-set="f" data-val="' + f.f + '"><span class="t">טיסה ' + f.f + ' · <span class="num">' + dshort(f.date) + '</span></span><span class="k">' + esc(f.carrier || '') + (f.escort ? ', מלווה: ' + esc(f.escort) : '') + '</span><b class="num">' + plain(n) + '</b><span class="s">' + (inf ? inf + ' תינוקות' : 'נפשות') + '</span>' +
+      '<span class="vz">' + vzShort(D.visa[f.f], flightCount(f.f)) + '</span><span class="mix">' + POP_ORDER.filter(k => pc[k]).map(k => '<i title="' + POP[k] + ': ' + pc[k] + '" style="flex:' + pc[k] + ';background:' + POP_COLOR[k] + '"></i>').join('') + '</span></button>';
+  }).join('') + '</div><div class="legend">' + POP_ORDER.map(k => '<span><i style="background:' + POP_COLOR[k] + '"></i>' + POP[k] + '</span>').join('') + '</div>';
+}
+function vzShort(v, tot) { if (!v || !Number(v.sent)) return '<span class="note" style="font-weight:600">טרם הועברו לרשות האוכלוסין</span>'; return 'רשות האוכלוסין: ' + (tot ? Math.round(Number(v.ok || 0) / tot * 100) : 0) + '% אושרו'; }
+function tkOverview(b) {
+  const L = rowsF();
+  b.innerHTML = tkKpis(L) + flightCards(L) +
+    '<div class="grid g3">' + bars('אוכלוסייה', '', 'pop', L) + bars('מרכז קליטה', '', 'center', L) + bars('מין', '', 'sex', L) + '</div>' +
+    '<div class="grid g2" style="margin-top:18px">' + pyramid(L) + '<div class="grid">' + bars('סוג כרטיס', 'לפי הגיל ביום הטיסה לישראל', 'fare', L) + bars('מצב משפחתי', '', 'st', L) + '</div></div>' +
+    '<div class="grid g3" style="margin-top:18px">' + bars('גודל בית אב', 'כל נפש נספרת לפי גודל בית האב שלה', 'hhs', L) + commBars(L) + '<div class="grid">' + bars('יציאה לדלהי', '', 'origin', L) + bars('תוקף דרכון', 'ביחס למועד הטיסה', 'pp', L) + '</div></div>';
+  bindSet(b);
+}
+function tkPivot(b) {
+  const L = rowsF(); const keys = Object.keys(DIM);
+  const opt = (sel, none) => (none ? '<option value="">ללא</option>' : '') + keys.map(k => '<option value="' + k + '"' + (sel === k ? ' selected' : '') + '>' + DIM[k].label + '</option>').join('');
+  const R = S.pv.rows, C = S.pv.cols;
+  const rv = sortVals([...new Set(L.map(r => String(r[DIM[R].i])))], R);
+  const cv = C ? sortVals([...new Set(L.map(r => String(r[DIM[C].i])))], C) : [];
+  const cell = {}; let mx = 0;
+  L.forEach(r => { const k = r[DIM[R].i] + '\u0001' + (C ? r[DIM[C].i] : ''); cell[k] = (cell[k] || 0) + r[11]; if (cell[k] > mx) mx = cell[k]; });
+  const rowT = v => sumN(L.filter(r => String(r[DIM[R].i]) === v));
+  const colT = v => sumN(L.filter(r => String(r[DIM[C].i]) === v));
+  let h = '<div class="panel"><div class="filters" style="grid-template-columns:repeat(3,minmax(0,220px));margin-bottom:12px"><div><label for="pvR">שורות</label><select id="pvR">' + opt(R) + '</select></div><div><label for="pvC">עמודות</label><select id="pvC">' + opt(C, true) + '</select></div><div style="display:flex;align-items:flex-end"><button class="btn" id="pvS">החלפת שורות ועמודות</button></div></div>' +
+    '<div class="tbl-wrap"><table class="pv"><thead><tr><th>' + DIM[R].label + (C ? ' / ' + DIM[C].label : '') + '</th>' + cv.map(c => '<th class="n">' + esc(DIM[C].fmt(c)) + '</th>').join('') + '<th class="n">סך הכל</th></tr></thead><tbody>' +
+    rv.map(r => '<tr><th class="rh">' + esc(DIM[R].fmt(r)) + '</th>' + cv.map(c => { const v = cell[r + '\u0001' + c] || 0; return '<td class="pvc" style="background:' + (v ? 'color-mix(in srgb, var(--sky-deep) ' + Math.round(8 + 40 * v / (mx || 1)) + '%, #fff)' : 'transparent') + '">' + (v ? '<span class="num">' + v + '</span>' : '<span class="note">·</span>') + '</td>'; }).join('') + '<td class="pvc"><b class="num">' + rowT(r) + '</b></td></tr>').join('') +
+    '<tr class="tot"><th class="rh">סך הכל</th>' + cv.map(c => '<td class="pvc"><span class="num">' + colT(c) + '</span></td>').join('') + '<td class="pvc"><span class="num">' + sumN(L) + '</span></td></tr></tbody></table></div><p class="note" style="margin-top:10px">סופרים נפשות. הסינון שלמעלה חל גם על הטבלה.</p></div>';
+  b.innerHTML = h;
+  $('#pvR', b).onchange = e => { S.pv.rows = e.target.value; tkPivot(b); };
+  $('#pvC', b).onchange = e => { S.pv.cols = e.target.value; tkPivot(b); };
+  $('#pvS', b).onclick = () => { if (!S.pv.cols) return; S.pv = { rows: S.pv.cols, cols: S.pv.rows }; tkPivot(b); };
+}
+function tkDomestic(b) {
+  const T = D.olim; const L = cubeRows();
+  const G = {}; (D.groups || []).forEach(g => G[g.id] = g);
+  let h = '<div class="panel"><h2>קבוצות בטיסות הפנים מאייזול לדלהי</h2><p class="sub">היעד מול מה שבקובץ, ותקופת השהייה במלון העולים בדלהי</p><div class="tbl-wrap"><table><thead><tr><th>קבוצה</th><th>טיסת פנים</th><th>בדלהי</th><th>טיסה לישראל</th><th>מלווה</th><th>יעד</th><th class="n">בקובץ</th></tr></thead><tbody>';
+  let st = 0, sa = 0;
+  (T.subgroups || []).forEach(s => {
+    const R = L.filter(r => r[1] === s.id); const n = sumN(R); const pc = counts(R, 'pop');
+    const tgt = Object.keys(s.target || {}).reduce((x, k) => x + s.target[k], 0); st += tgt; sa += n;
+    const g = G[s.id]; const fl = flightsTo().find(f => f.f === s.f);
+    h += '<tr><td><b>' + esc(s.id) + '</b></td><td>' + dshort(s.dom) + '</td><td>' + (g ? dshort(g.from) + ' עד ' + dshort(g.to) : '') + '</td><td>' + (fl ? 'טיסה ' + fl.f + ', ' + dshort(fl.date) : '') + '</td><td>' + esc(s.escort || '') + '</td><td>' +
+      Object.keys(s.target || {}).map(k => esc(POP[k] || k) + ' <span class="num">' + s.target[k] + '</span>').join('<br>') + '</td><td class="n"><b class="num"' + (n !== tgt ? ' style="color:var(--over)"' : '') + '>' + n + '</b><div class="note">' + POP_ORDER.filter(k => pc[k]).map(k => POP[k] + ' ' + pc[k]).join(', ') + '</div></td></tr>';
+  });
+  h += '<tr><td colspan="5"><b>סך הכל</b></td><td><b class="num">' + st + '</b></td><td class="n"><b class="num">' + sa + '</b></td></tr></tbody></table></div><p class="note" style="margin-top:10px">מספר באדום: יש פער בין היעד לקבוצה לבין מה שרשום בקובץ הטיסות.</p></div>';
+  b.innerHTML = h;
+}
+function tkVisa(b) {
+  const V = D.visa || {}; let s = 0, o = 0, mi = 0, t = 0;
+  let h = '<div class="panel"><h2>אישורי רשות האוכלוסין</h2><p class="sub">כמה תיקים הועברו לבדיקה, כמה אושרו וכמה מחכים להשלמות, לפי טיסה</p><div class="tbl-wrap"><table><thead><tr><th>טיסה</th><th class="n">נפשות</th><th class="n">הועברו</th><th class="n">אושרו</th><th class="n">בחוסרים</th><th>התקדמות</th><th>עדכון אחרון</th></tr></thead><tbody>';
+  flightsTo().forEach(f => {
+    const v = V[f.f] || {}; const n = flightCount(f.f); const sent = Number(v.sent || 0), ok = Number(v.ok || 0), miss = Number(v.miss || 0);
+    s += sent; o += ok; mi += miss; t += n;
+    h += '<tr><td><b>טיסה ' + f.f + '</b> · ' + dshort(f.date) + '</td><td class="n num">' + n + '</td><td class="n num">' + sent + '</td><td class="n num">' + ok + '</td><td class="n num">' + miss + '</td><td style="min-width:110px"><span class="num">' + (n ? Math.round(ok / n * 100) : 0) + '%</span><div class="prog"><i style="width:' + (n ? ok / n * 100 : 0) + '%"></i></div></td><td>' + (v.at ? dshort(v.at.slice(0, 10)) : '<span class="note">טרם</span>') + '</td></tr>';
+  });
+  h += '<tr><td><b>סך הכל</b></td><td class="n"><b class="num">' + t + '</b></td><td class="n"><b class="num">' + s + '</b></td><td class="n"><b class="num">' + o + '</b></td><td class="n"><b class="num">' + mi + '</b></td><td><span class="num">' + (t ? Math.round(o / t * 100) : 0) + '%</span></td><td></td></tr></tbody></table></div></div>';
+  b.innerHTML = h;
+}
+function tkIssues(b) {
+  const L = rowsF(); const c = {}; const byF = {};
+  L.forEach(r => { const iss = r[12] || {}; Object.keys(iss).forEach(k => { c[k] = (c[k] || 0) + iss[k]; const x = byF[k] = byF[k] || {}; x[r[0]] = (x[r[0]] || 0) + iss[k]; }); });
+  const keys = Object.keys(ISS).filter(k => c[k]);
+  const hold = D.olim.onHold || {};
+  let h = '<div class="panel"><h2>נושאים לטיפול</h2><p class="sub">כמה נפשות בכל נושא, לפי טיסה. הפרטים עצמם נמצאים במערכת המלאה.</p><div class="tbl-wrap"><table><thead><tr><th>נושא</th>' + flightsTo().map(f => '<th class="n">טיסה ' + f.f + '</th>').join('') + '<th class="n">סך הכל</th></tr></thead><tbody>' +
+    (keys.length ? keys.map(k => '<tr><td>' + ISS[k] + '</td>' + flightsTo().map(f => '<td class="n num">' + ((byF[k] || {})[f.f] || '') + '</td>').join('') + '<td class="n"><b class="num">' + c[k] + '</b></td></tr>').join('') : '<tr><td colspan="8" class="note">אין נושאים פתוחים בסינון הזה</td></tr>') +
+    '<tr><td>תיקים שהוצאו מטיסה ונמצאים בהמתנה</td>' + flightsTo().map(f => '<td class="n num">' + (hold[f.f] || '') + '</td>').join('') + '<td class="n"><b class="num">' + Object.values(hold).reduce((s, x) => s + x, 0) + '</b></td></tr></tbody></table></div></div>';
+  b.innerHTML = h;
+}
+
+/* ---------- ceremonies ---------- */
+function renderWelcomes(m) {
+  const W = (D.welcomes || []).slice().sort((a, b) => a.date < b.date ? -1 : 1);
+  const miss = W.reduce((s, w) => s + (w.fields || []).filter(f => !String(f.v || '').trim()).length, 0);
+  const olim = W.reduce((s, w) => s + Number(w.olim || 0), 0);
+  let h = '<div class="page-head"><h1>טקסים וקבלות פנים</h1><p>קבלות הפנים בנתב״ג לכל טיסת עלייה, והאירועים עם העולים בדלהי. מה שעוד חסר מסומן באדום.</p></div>';
+  h += '<div class="kpis">' + kp('קבלות פנים', W.length) + kp('עולים בטיסות האלה', plain(olim)) + kp('פרטים שעוד חסרים', '<span style="color:' + (miss ? 'var(--over)' : 'var(--save)') + '">' + miss + '</span>') + kp('טווח תאריכים', W.length ? dshort(W[0].date) + ' עד ' + dshort(W[W.length - 1].date) : '') + '</div>';
+  h += W.map(w => {
+    const fm = (w.fields || []).filter(f => !String(f.v || '').trim()).length;
+    return '<div class="wcard"><div class="whead"><div class="dt"><small>יום ' + WD[wday(w.date)] + '</small><b class="num">' + dshort(w.date) + '</b></div><div style="flex:1"><h3>' + esc(w.title) + '</h3><div class="pills" style="margin:6px 0 0">' + (w.time ? '<span class="pill">נחיתה <span class="num">' + esc(w.time) + '</span></span>' : '') + (w.olim ? '<span class="pill">' + w.olim + ' עולים</span>' : '') + (fm ? '<span class="pill" style="background:var(--over-soft);color:var(--over)">חסרים ' + fm + ' פרטים</span>' : '<span class="pill ok">כל הפרטים מלאים</span>') + '</div></div><button class="btn" data-goday="' + w.date + '">ביום הזה בלו״ז</button></div>' +
+      (w.fields || []).map(f => '<div class="wf"><span class="l">' + esc(f.l) + '</span><span>' + (String(f.v || '').trim() ? esc(f.v) : '<span class="miss">חסר</span>') + '</span></div>').join('') + '</div>';
+  }).join('');
+  const C = D.events.filter(e => (e.source === 'kh' || e.source === 'donors') && e.kind !== 'headline').sort((a, b) => (a.date + (a.time || '')) < (b.date + (b.time || '')) ? -1 : 1);
+  if (C.length) {
+    h += '<div class="panel" style="margin-top:6px"><h2>אירועים עם העולים והשותפים בדלהי</h2><p class="sub">משלחות של קרן היסוד ושל קשרי תורמים, כולל הטקס לקראת העלייה</p>';
+    let last = '';
+    C.forEach(e => { if (e.date !== last) { h += '<p style="margin:14px 0 6px;font-weight:800;color:var(--navy)">יום ' + WD[wday(e.date)] + ', <span class="num">' + dshort(e.date) + '</span></p>'; last = e.date; } h += evRow(e); });
+    h += '</div>';
+  }
+  m.innerHTML = h; bindGo(m);
+}
+
+/* ---------- boot ---------- */
+(function boot() {
+  const hs = (location.hash || '').slice(1).split('/');
+  if (['home', 'schedule', 'olim', 'welcomes'].indexOf(hs[0]) >= 0) { S.area = hs[0]; if (hs[1] && DAYS.indexOf(hs[1]) >= 0) S.day = hs[1]; }
+  $$('nav.tabs button').forEach(x => x.setAttribute('aria-selected', String(x.dataset.area === S.area)));
+  const b = new Date(D.built);
+  $('#foot').textContent = 'מבצע כנפי שחר, גל שני. עודכן לאחרונה ' + b.toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem', day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' }) + ', מתוך מערכת הניהול של הפרויקט.';
+  render();
+})();
+</script>
+</body>
+</html>

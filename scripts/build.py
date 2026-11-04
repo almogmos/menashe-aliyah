@@ -110,7 +110,18 @@ def build_olim(db):
     sgs = {s['id']: s for s in meta.get('subgroups', [])}
     people = []
     for i in range(1, 7):
-        people += (load(db, f'ticketing/p{i}.json', {}) or {}).get('people', [])
+        part = load(db, f'ticketing/p{i}.json')
+        if part is None:
+            sys.exit(f'ticketing/p{i}.json missing: export all of ticketing (meta, assign, p1..p6) together')
+        people += part.get('people', [])
+    if load(db, 'ticketing/assign.json') is None:
+        sys.exit('ticketing/assign.json missing: export all of ticketing (meta, assign, p1..p6) together')
+    if meta.get('total') is not None and len(people) != meta['total']:
+        sys.exit(f"ticketing check failed: {len(people)} people in p1..p6, meta total is {meta['total']}")
+    for p in people:
+        miss = [k for k in ('f', 'hh', 'file', 'pop') if not p.get(k)]
+        if miss:
+            sys.exit(f"ticketing check failed: record {p.get('id')} lacks {miss}")
 
     hh_size = collections.Counter((p['f'], p['hh']) for p in people)
     cube = collections.Counter()
@@ -161,29 +172,54 @@ def build_olim(db):
 
 def main():
     db = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, 'db')
-    g = load(db, 'gantt/main.json')
-    if not g:
-        sys.exit('gantt/main.json not found in ' + db)
-    events, people, groups, places = build_schedule(g)
-    welcomes = [w for w in (load(db, 'welcomes/main.json', {}) or {}).get('items', []) if w.get('date', '') >= START]
-    for w in welcomes:
-        for f in w.get('fields', []):
-            f['v'] = scrub(f.get('v', ''))
-    visa = {}
-    for k, v in ((load(db, 'visa/main.json', {}) or {}).get('flights', {}) or {}).items():
-        visa[k] = {x: v.get(x) for x in ('sent', 'ok', 'miss', 'at')}
-
-    data = {'start': START, 'end': (g.get('range') or {}).get('to', '2026-11-26'), 'ganttUpdated': g.get('updated', ''),
-            'events': events, 'people': people, 'groups': groups, 'places': places,
-            'welcomes': welcomes, 'olim': build_olim(db), 'visa': visa}
-    body = json.dumps(data, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
-    digest = hashlib.sha256(body.encode()).hexdigest()[:12]
-
     old = os.path.join(ROOT, 'data.json')
     prev = {}
     if os.path.exists(old):
         with open(old, encoding='utf8') as f:
             prev = json.load(f)
+
+    # A source file that was not exported this run keeps its section from the previous data.json.
+    data = {}
+    g = load(db, 'gantt/main.json')
+    if g:
+        events, people, groups, places = build_schedule(g)
+        data.update({'start': START, 'end': (g.get('range') or {}).get('to', '2026-11-26'), 'ganttUpdated': g.get('updated', ''),
+                     'events': events, 'people': people, 'groups': groups, 'places': places})
+    else:
+        keys = ('start', 'end', 'ganttUpdated', 'events', 'people', 'groups', 'places')
+        if not all(k in prev for k in keys):
+            sys.exit('gantt/main.json not found in ' + db + ' and no previous data.json to keep')
+        data.update({k: prev[k] for k in keys})
+
+    wdoc = load(db, 'welcomes/main.json')
+    if wdoc is not None:
+        welcomes = [w for w in (wdoc or {}).get('items', []) if w.get('date', '') >= START]
+        for w in welcomes:
+            for f in w.get('fields', []):
+                f['v'] = scrub(f.get('v', ''))
+    else:
+        welcomes = prev.get('welcomes', [])
+    data['welcomes'] = welcomes
+
+    vdoc = load(db, 'visa/main.json')
+    if vdoc is not None:
+        visa = {}
+        for k, v in ((vdoc or {}).get('flights', {}) or {}).items():
+            visa[k] = {x: v.get(x) for x in ('sent', 'ok', 'miss', 'at')}
+    else:
+        visa = prev.get('visa', {})
+    data['visa'] = visa
+
+    data['olim'] = build_olim(db) if os.path.exists(os.path.join(db, 'ticketing/meta.json')) else prev.get('olim')
+
+    # Board document versions seen so far (integers only), used to skip unchanged sources.
+    src = dict(prev.get('src') or {})
+    src.update({k: int(v) for k, v in (load(db, 'versions.json', {}) or {}).items()})
+    data['src'] = src
+
+    body = json.dumps(data, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+    digest = hashlib.sha256(body.encode()).hexdigest()[:12]
+
     data['digest'] = digest
     if prev.get('digest') == digest and prev.get('built'):
         data['built'] = prev['built']

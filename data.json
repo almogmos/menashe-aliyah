@@ -1375,7 +1375,7 @@
  "olim": {
   "source": "קובץ הטיסות הסופי מ-18.11.26, נבדק 3.11.26. כל שש הטיסות סגורות",
   "imported": "2026-11-03",
-  "total": 610,
+  "total": 609,
   "flights": [
    {
     "f": 1,
@@ -6384,7 +6384,7 @@
     "18 עד 29",
     "adult",
     "רווק/ה",
-    "7+",
+    "6",
     "אייזול",
     "ok",
     2
@@ -6523,25 +6523,8 @@
     "F",
     "65 ומעלה",
     "adult",
-    "אלמן/ה",
-    "7+",
-    "אייזול",
-    "ok",
-    1,
-    {
-     "wch": 1
-    }
-   ],
-   [
-    6,
-    "6ג",
-    "manipurNG",
-    "נוף הגליל",
-    "F",
-    "65 ומעלה",
-    "adult",
     "רווק/ה",
-    "7+",
+    "6",
     "אייזול",
     "ok",
     1
@@ -6583,10 +6566,24 @@
     "12 עד 17",
     "adult",
     "קטין/ה",
+    "6",
+    "אייזול",
+    "ok",
+    1
+   ],
+   [
+    6,
+    "6ג",
+    "manipurNG",
+    "נוף הגליל",
+    "M",
+    "12 עד 17",
+    "adult",
+    "קטין/ה",
     "7+",
     "אייזול",
     "ok",
-    5
+    4
    ],
    [
     6,
@@ -6639,7 +6636,7 @@
     "18 עד 29",
     "adult",
     "רווק/ה",
-    "7+",
+    "6",
     "אייזול",
     "ok",
     2
@@ -8105,7 +8102,7 @@
     "manipurNG",
     "נוף הגליל",
     "6",
-    1
+    2
    ],
    [
     6,
@@ -8113,7 +8110,7 @@
     "manipurNG",
     "נוף הגליל",
     "7+",
-    3
+    2
    ],
    [
     6,
@@ -8321,7 +8318,7 @@
     6,
     "6ג",
     "לא צוין",
-    68
+    67
    ],
    [
     6,
@@ -8386,7 +8383,7 @@
   ]
  },
  "domestic": {
-  "source": "קובץ ההסעים וטיסות הפנים של אולג (מאניפור ומיזורם), 4.11.26",
+  "source": "קובץ ההסעים וטיסות הפנים של אולג (מאניפור ומיזורם), 4.11.26, כולל לשונית קנגפוקפי",
   "flights": [
    {
     "id": "d03",
@@ -8463,6 +8460,18 @@
     "escort": "חנוך"
    },
    {
+    "id": "dimp",
+    "from": "אימפל",
+    "sgs": [
+     "2",
+     "4",
+     "6א",
+     "6ב",
+     "6ג"
+    ],
+    "plan": 93
+   },
+   {
     "id": "pend:2026-11-15",
     "date": "2026-11-15",
     "no": "6E 766 ו-6E 6233",
@@ -8537,8 +8546,8 @@
     "2",
     "d03",
     false,
-    65,
-    1
+    7,
+    0
    ],
    [
     2,
@@ -8547,6 +8556,14 @@
     false,
     5,
     0
+   ],
+   [
+    2,
+    "2",
+    "dimp",
+    false,
+    58,
+    1
    ],
    [
     3,
@@ -8567,9 +8584,17 @@
    [
     4,
     "4",
+    "dimp",
+    false,
+    13,
+    0
+   ],
+   [
+    4,
+    "4",
     "pend:2026-11-18",
     false,
-    59,
+    46,
     0
    ],
    [
@@ -8593,23 +8618,39 @@
     "6א",
     "d07",
     false,
-    30,
-    3
+    25,
+    2
+   ],
+   [
+    6,
+    "6א",
+    "dimp",
+    false,
+    5,
+    1
+   ],
+   [
+    6,
+    "6ב",
+    "dimp",
+    false,
+    8,
+    2
    ],
    [
     6,
     "6ב",
     "pend:2026-11-22",
     false,
-    91,
-    7
+    83,
+    5
    ],
    [
     6,
     "6ג",
     "d10",
     false,
-    74,
+    64,
     0
    ],
    [
@@ -8618,6 +8659,14 @@
     "delhi",
     false,
     7,
+    0
+   ],
+   [
+    6,
+    "6ג",
+    "dimp",
+    false,
+    9,
     0
    ],
    [
@@ -9152,7 +9201,7 @@
     "en": "Lamgunlen Haokip",
     "pp4": "6918",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9168,7 +9217,7 @@
     "en": "Nehminthang Haokip",
     "pp4": "1766",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9176,7 +9225,7 @@
     "en": "Rachel Neipiching Haokip",
     "pp4": "6664",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9200,7 +9249,7 @@
     "en": "Lungoulen Hangsing",
     "pp4": "1051",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9208,7 +9257,7 @@
     "en": "Mangminlun Hangsing",
     "pp4": "9662",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9216,7 +9265,7 @@
     "en": "Miyen Hangsing",
     "pp4": "3248",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9224,7 +9273,7 @@
     "en": "Nengneihat Hangsing",
     "pp4": "2136",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9232,7 +9281,7 @@
     "en": "Daniel Hangshing",
     "pp4": "9176",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9240,7 +9289,7 @@
     "en": "Kimneilam Hangshing",
     "pp4": "8916",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9248,7 +9297,7 @@
     "en": "Yenon Hangshing",
     "pp4": "6665",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9256,7 +9305,7 @@
     "en": "Lenyarron Hangshing",
     "pp4": "5077",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9264,7 +9313,7 @@
     "en": "Lutgouthang Hangshing",
     "pp4": "2219",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9272,7 +9321,7 @@
     "en": "Nengnunnem Hangshing",
     "pp4": "4032",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9280,7 +9329,7 @@
     "en": "Ngahkhokim Hangshing",
     "pp4": "6647",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9288,7 +9337,7 @@
     "en": "Seileazer Hangshing",
     "pp4": "5079",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9296,7 +9345,7 @@
     "en": "Seiwanglen Hangshing",
     "pp4": "1289",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9304,7 +9353,7 @@
     "en": "Paolen Hangshing",
     "pp4": "2847",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9312,7 +9361,7 @@
     "en": "Kimjaboung Hangshing",
     "pp4": "5074",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9320,7 +9369,7 @@
     "en": "Kimneithem Adi Hangshing",
     "pp4": "7753",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9328,7 +9377,7 @@
     "en": "Rachel Hangshing",
     "pp4": "4458",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9352,7 +9401,7 @@
     "en": "Hoikim Touthang",
     "pp4": "3881",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9360,7 +9409,7 @@
     "en": "Vavang Touthang",
     "pp4": "4341",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9368,7 +9417,7 @@
     "en": "Mamang Touthang",
     "pp4": "4339",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9392,7 +9441,7 @@
     "en": "Kimngai Touthang",
     "pp4": "6533",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9408,7 +9457,7 @@
     "en": "Shem Lunmingun Sitlhou",
     "pp4": "5986",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9416,7 +9465,7 @@
     "en": "Benjamin Seigoulen Sitlhou",
     "pp4": "3829",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9424,7 +9473,7 @@
     "en": "Lior Sehjagin Sitlhou",
     "pp4": "4170",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9432,7 +9481,7 @@
     "en": "Ruth Kimngailam Sitlhou",
     "pp4": "8481",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9440,7 +9489,7 @@
     "en": "Roi Ginmonsang Sitlhou",
     "pp4": "6758",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9448,7 +9497,7 @@
     "en": "Lhingboikim Sitlhou",
     "pp4": "4701",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9456,7 +9505,7 @@
     "en": "Lamneivah Singson",
     "pp4": "1859",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9464,7 +9513,7 @@
     "en": "Lhingneihoi Singson",
     "pp4": "8798",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9472,7 +9521,7 @@
     "en": "Chongboikim Singson",
     "pp4": "4465",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9480,7 +9529,7 @@
     "en": "Chongneilam Singson",
     "pp4": "4469",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9488,7 +9537,7 @@
     "en": "Ginminlal Singsit",
     "pp4": "2406",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9496,7 +9545,7 @@
     "en": "Janglensang Singsit",
     "pp4": "7181",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9504,7 +9553,7 @@
     "en": "Thangkhohen Singsit",
     "pp4": "7878",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9512,7 +9561,7 @@
     "en": "Paoginlun Singsit",
     "pp4": "2403",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9520,7 +9569,7 @@
     "en": "Chongneineng Singsit",
     "pp4": "7883",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9528,7 +9577,7 @@
     "en": "David Chongloi",
     "pp4": "3386",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9536,7 +9585,7 @@
     "en": "Haogoulen Chongloi",
     "pp4": "3383",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9544,7 +9593,7 @@
     "en": "Tinneilhing Chongloi",
     "pp4": "3347",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9552,7 +9601,7 @@
     "en": "Letsei Chongloi",
     "pp4": "3355",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9560,7 +9609,7 @@
     "en": "Lamgunhao Chongloi",
     "pp4": "3381",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9568,7 +9617,7 @@
     "en": "Rina Nengnunnem Chongloi",
     "pp4": "0676",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9576,7 +9625,7 @@
     "en": "Lior Seiboimang Chongloi",
     "pp4": "7949",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9584,7 +9633,7 @@
     "en": "Kamminthang Chongloi",
     "pp4": "6361",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9592,7 +9641,7 @@
     "en": "Vumcha Kuki",
     "pp4": "9255",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9600,7 +9649,7 @@
     "en": "Lamginmang Kuki",
     "pp4": "9285",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9608,7 +9657,7 @@
     "en": "Edna Kipgen",
     "pp4": "9919",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9616,7 +9665,7 @@
     "en": "Ginlungmong Kipgen",
     "pp4": "2995",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9624,7 +9673,7 @@
     "en": "Hodaiya Hoilungdei Kipgen",
     "pp4": "1601",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9632,7 +9681,7 @@
     "en": "Joujam Kipgen",
     "pp4": "3404",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9640,7 +9689,7 @@
     "en": "Nengjahoi Kipgen",
     "pp4": "9634",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9648,7 +9697,7 @@
     "en": "Nengchoiem Kipgen",
     "pp4": "3305",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9656,7 +9705,7 @@
     "en": "Seigoulal Kipgen",
     "pp4": "3403",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9664,7 +9713,7 @@
     "en": "Kimhoichong Kipgen",
     "pp4": "8687",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 2,
@@ -9672,7 +9721,7 @@
     "en": "Semeon Kipgen",
     "pp4": "1270",
     "sg": "2",
-    "df": "d03"
+    "df": "dimp"
    },
    {
     "f": 3,
@@ -10408,7 +10457,7 @@
     "en": "Lalvanghao Touthang",
     "pp4": "2923",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10424,7 +10473,7 @@
     "en": "Lhingneiting Touthang",
     "pp4": "2917",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10440,7 +10489,7 @@
     "en": "Ngamtinkhup Touthang",
     "pp4": "1033",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10488,7 +10537,7 @@
     "en": "Seiminhao Touthang",
     "pp4": "2921",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10496,7 +10545,7 @@
     "en": "Paogunsang Touthang",
     "pp4": "2919",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10512,7 +10561,7 @@
     "en": "Kholkhanching Lhoujem",
     "pp4": "3097",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10520,7 +10569,7 @@
     "en": "Tingneihat",
     "pp4": "3033",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10528,7 +10577,7 @@
     "en": "Lamkholen Lhoujem",
     "pp4": "9843",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10536,7 +10585,7 @@
     "en": "Lamlalsem Lhoujem",
     "pp4": "3829",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10544,7 +10593,7 @@
     "en": "Lenvanghao Lhoujem",
     "pp4": "1669",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10552,7 +10601,7 @@
     "en": "Lhaineikim Lhoujem",
     "pp4": "5039",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10560,7 +10609,7 @@
     "en": "Lunboichung Lhoujem",
     "pp4": "3465",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -10568,7 +10617,7 @@
     "en": "Kimneimoi Lhoujem",
     "pp4": "4145",
     "sg": "4",
-    "df": "pend:2026-11-18"
+    "df": "dimp"
    },
    {
     "f": 4,
@@ -11560,7 +11609,7 @@
     "en": "Lengouchung Haokip",
     "pp4": "2660",
     "sg": "6ב",
-    "df": "pend:2026-11-22"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -11600,7 +11649,7 @@
     "en": "Luntunlal Haokip",
     "pp4": "3716",
     "sg": "6ב",
-    "df": "pend:2026-11-22"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -11648,7 +11697,7 @@
     "en": "Orly Nengpahhoi Haokip",
     "pp4": "7233",
     "sg": "6ב",
-    "df": "pend:2026-11-22"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -11712,7 +11761,7 @@
     "en": "Chinneineng Kipgen",
     "pp4": "3935",
     "sg": "6ב",
-    "df": "pend:2026-11-22"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12200,7 +12249,7 @@
     "en": "Hoithenkim Lhouvum",
     "pp4": "9058",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12208,7 +12257,7 @@
     "en": "Veimonkim Lhouvum",
     "pp4": "0077",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12216,7 +12265,7 @@
     "en": "Janggougin Lhouvum",
     "pp4": "9059",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12224,7 +12273,7 @@
     "en": "Lamboilen Lhouvum",
     "pp4": "7342",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12232,7 +12281,7 @@
     "en": "Lamnunnem Lhouvum",
     "pp4": "0130",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12240,7 +12289,7 @@
     "en": "Paokai Lhouvum",
     "pp4": "5007",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12248,7 +12297,7 @@
     "en": "Phalneithem Lhouvum",
     "pp4": "4975",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12256,7 +12305,7 @@
     "en": "Chongchindei Lhouvum",
     "pp4": "0284",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12264,7 +12313,7 @@
     "en": "Kimneichin Lhouvum",
     "pp4": "7345",
     "sg": "6ג",
-    "df": "d10"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12416,7 +12465,7 @@
     "en": "Hatneilam Lupheng",
     "pp4": "3759",
     "sg": "6א",
-    "df": "d07"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12424,7 +12473,7 @@
     "en": "Thongminlen Lupheng",
     "pp4": "1458",
     "sg": "6ב",
-    "df": "pend:2026-11-22"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12432,7 +12481,7 @@
     "en": "Tingnunhoi Lupheng",
     "pp4": "0849",
     "sg": "6א",
-    "df": "d07"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12440,7 +12489,7 @@
     "en": "Lenminthang Lupheng",
     "pp4": "7154",
     "sg": "6א",
-    "df": "d07"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12448,7 +12497,7 @@
     "en": "Nengngaikim Lupheng",
     "pp4": "2220",
     "sg": "6א",
-    "df": "d07"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12456,7 +12505,7 @@
     "en": "Nengpithem Lupheng",
     "pp4": "2312",
     "sg": "6ב",
-    "df": "pend:2026-11-22"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12464,7 +12513,7 @@
     "en": "Nemneichan Lupheng",
     "pp4": "4619",
     "sg": "6א",
-    "df": "d07"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12472,7 +12521,7 @@
     "en": "Chingngaihjem Lupheng",
     "pp4": "2074",
     "sg": "6ב",
-    "df": "pend:2026-11-22"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -12480,7 +12529,7 @@
     "en": "Hadasa Kimngailen Lupheng",
     "pp4": "2311",
     "sg": "6ב",
-    "df": "pend:2026-11-22"
+    "df": "dimp"
    },
    {
     "f": 6,
@@ -13052,14 +13101,6 @@
    },
    {
     "f": 6,
-    "he": "פולמטה נאמנו",
-    "en": "Nemnu Pulamte",
-    "pp4": "5085",
-    "sg": "6ג",
-    "df": "d10"
-   },
-   {
-    "f": 6,
     "he": "פולמטה נאמנונטהם",
     "en": "Nemnunthiam Pulamte",
     "pp4": "5079",
@@ -13526,6 +13567,6 @@
   "hash": "dde1c8636f58c25f",
   "at": "2026-11-04T07:53:18.929Z"
  },
- "digest": "ee22b575b6f0",
- "built": "2026-11-04T13:14:10Z"
+ "digest": "049f948284eb",
+ "built": "2026-11-04T13:50:37Z"
 }

@@ -13,6 +13,8 @@ Writes <db_dir>/roster.json. Only these fields leave the workbook, per person:
 Birth dates, file numbers, parents, addresses, phones, notes and documents are never written out.
 Birth dates and file numbers are read only to count infants per domestic flight and to keep families together.
 Sheets without a date in their name (the summary, additions, "not arriving") are skipped.
+People listed under "removed" in the domestic plan (file + given name) are left out. Files under "fixed" go to that
+domestic flight (e.g. Kangpokpi olim flying from Imphal).
 
 The domestic flight of each person follows the same rule as the full board (tkDomApply):
 already in Delhi by file -> "delhi"; otherwise the flight on the group's domestic day (Dimapur flight for
@@ -65,13 +67,16 @@ def age_on(dob, iso):
 
 def assign_domestic(people, plan, sg_order):
     """people: dicts with f, sg, file, n, dom, dmu. Sets p['df'] in place. Mirrors tkDomApply in the board."""
-    flights = sorted(plan.get('flights', []), key=lambda f: f['date'] + (f.get('dep') or '99:99') + ('1' if f.get('dmu') else '0'))
+    flights = sorted(plan.get('flights', []), key=lambda f: (f.get('date') or '9999') + (f.get('dep') or '99:99') + ('1' if f.get('dmu') else '0'))
     by_id = {f['id']: f for f in flights}
-    delhi, mp = plan.get('delhi', {}), plan.get('map', {})
+    delhi, mp, fixed = plan.get('delhi', {}), plan.get('map', {}), plan.get('fixed', {})
     for p in people:
         p['df'], p['auto'], p['manual'], p['cand'] = '', False, False, None
         if p['file'] in delhi:
             p['df'] = 'delhi'
+            continue
+        if fixed.get(p['file']) in by_id:
+            p['df'] = fixed[p['file']]
             continue
         cand = [f['id'] for f in flights if f['date'] == p['dom'] and p['sg'] in (f.get('sgs') or []) and bool(f.get('dmu')) == p['dmu']]
         if not cand:
@@ -146,6 +151,10 @@ def main():
             n += 1
             rec = {'f': fno, 'he': ' '.join(x for x in (clean(r[ihf]), clean(r[ihg])) if x),
                    'en': ' '.join(x for x in (clean(r[igiv]), clean(r[ifam])) if x), 'pp4': pp[-4:]}
+            fileno = clean(r[ifile]).replace(' ', '') if ifile is not None else ''
+            if plan and any(x.get('file') == fileno and x.get('given', '').lower() == clean(r[igiv]).lower() for x in plan.get('removed', [])):
+                seen.discard(pp)
+                continue
             sg = clean(r[isg]).split('-')[0] if isg is not None else ''
             if sg:
                 if sg not in sg_dom:
@@ -168,7 +177,7 @@ def main():
             k = (w['f'], w['sg'], w['df'], bool(w['auto']))
             agg[k] += 1
             fl = by_id.get(w['df'])
-            a = age_on(w['dob'], fl['date']) if fl else None
+            a = age_on(w['dob'], (fl.get('date') or w['dom'])) if fl else None
             if a is not None and a < 2:
                 inf[k] += 1
         doc['domestic'] = {

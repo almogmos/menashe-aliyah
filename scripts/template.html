@@ -557,18 +557,19 @@ function tkPivot(b) {
 }
 /* ---------- domestic flights to Delhi: from the board's domestic plan and the flights workbook ---------- */
 const DOMX = () => D.domestic || null;
-function dfList() { const X = DOMX(); if (!X) return []; if (!X._s) X._s = X.flights.slice().sort((a, b) => (a.date + (a.dep || '99:99') + (a.dmu ? '1' : '0')).localeCompare(b.date + (b.dep || '99:99') + (b.dmu ? '1' : '0'))); return X._s; }
+function dfList() { const X = DOMX(); if (!X) return []; if (!X._s) X._s = X.flights.slice().sort((a, b) => ((a.date || '9999') + (a.dep || (a.deps || [])[0] || '99:99') + (a.dmu ? '1' : '0')).localeCompare((b.date || '9999') + (b.dep || (b.deps || [])[0] || '99:99') + (b.dmu ? '1' : '0'))); return X._s; }
 function dfById(id) { return dfList().find(f => f.id === id); }
 function dfName(id, noTime) {
   if (id === 'delhi') return 'כבר בדלהי, בלי טיסת פנים';
   const f = dfById(id); if (!f) return 'לא שובץ';
   if (f.pend) return dshort(f.date) + ' · ' + f.no + ', טרם שובץ';
-  const b = [dshort(f.date), f.no || ('מ' + f.from)]; if (f.dep && !noTime) b.push(f.dep); return b.join(' · ');
+  const b = [f.date ? dshort(f.date) : 'תאריך לא נקבע', f.no || ('מ' + f.from)]; if (f.dep && !noTime) b.push(f.dep); return b.join(' · ');
 }
 function dfOrder(id) { if (id === 'delhi') return 900; const i = dfList().findIndex(f => f.id === id); return i < 0 ? 999 : i; }
 function dfCell(id) {
   if (id === 'delhi') return '<b>כבר בדלהי</b><div class="note">בלי טיסת פנים</div>';
   const f = dfById(id); if (!f) return '<span class="note">לא שובץ</span>';
+  if (!f.date) return '<b>מ' + esc(f.from) + ' לדלהי</b><div class="note">התאריך והטיסה עוד לא נקבעו</div>';
   if (f.pend) return '<b class="num">' + dshort(f.date) + '</b> <b>' + esc(f.no) + '</b><div class="note">מ' + esc(f.from || 'אייזול') + ', ' + (f.deps || []).map(d => '<span class="num">' + esc(d) + '</span>').join(' ו-') + '</div><div><span class="dtag prop">טרם שובץ בין שתי הטיסות</span></div>' + (f.escort ? '<div class="note">מלווה: ' + esc(f.escort) + '</div>' : '');
   return '<b class="num">' + dshort(f.date) + '</b> <b>' + esc(f.no || 'מ' + f.from) + '</b>' +
     (f.dep ? '<div class="note">מ' + esc(f.from || 'אייזול') + ', <span class="num">' + esc(f.dep) + '</span>' + (f.arr ? ' עד <span class="num">' + esc(f.arr) + '</span>' : '') + '</div>' : (f.no ? '' : '<div class="note">מספר הטיסה עוד לא ידוע</div>')) +
@@ -576,14 +577,14 @@ function dfCell(id) {
 }
 // rows: [flight to Israel, group, domestic flight, proposed, people, infants]
 const DKEYS = { f: 0, sg: 1, df: 2 };
-function dRowVal(r, k) { if (k === 'day') { if (r[2] === 'delhi') return 'delhi'; const f = dfById(r[2]); return f ? f.date : ''; } return String(r[DKEYS[k]]); }
+function dRowVal(r, k) { if (k === 'day') { if (r[2] === 'delhi') return 'delhi'; const f = dfById(r[2]); return f ? (f.date || 'tbd') : ''; } return String(r[DKEYS[k]]); }
 function dRows(skip) { const X = DOMX(); return (X ? X.rows : []).filter(r => Object.keys(S.DF).every(k => k === skip || !S.DF[k] || dRowVal(r, k) === S.DF[k])); }
 function dfCardLine(fno) {
   const X = DOMX(); if (!X) return '';
-  const days = {}; let dly = 0;
-  X.rows.forEach(r => { if (r[0] !== fno) return; if (r[2] === 'delhi') { dly += r[4]; return; } const f = dfById(r[2]); if (f) (f.pend ? f.cands : [f.id]).forEach(x => (days[f.date] = days[f.date] || {})[x] = 1); });
+  const days = {}; let dly = 0, tbd = 0;
+  X.rows.forEach(r => { if (r[0] !== fno) return; if (r[2] === 'delhi') { dly += r[4]; return; } const f = dfById(r[2]); if (f && !f.date) { tbd += r[4]; return; } if (f) (f.pend ? f.cands : [f.id]).forEach(x => (days[f.date] = days[f.date] || {})[x] = 1); });
   const ks = Object.keys(days).sort();
-  return '<span class="dfc">פנים: ' + ks.map(d => { const n = Object.keys(days[d]).length; return '<span class="num">' + dshort(d) + '</span>' + (n > 1 ? ' (' + n + ' טיסות)' : ''); }).join(', ') + (dly ? '<br>' + dly + ' כבר בדלהי' : '') + '</span>';
+  return '<span class="dfc">פנים: ' + ks.map(d => { const n = Object.keys(days[d]).length; return '<span class="num">' + dshort(d) + '</span>' + (n > 1 ? ' (' + n + ' טיסות)' : ''); }).join(', ') + (tbd ? '<br>' + tbd + ' מאימפל, תאריך לא נקבע' : '') + (dly ? '<br>' + dly + ' כבר בדלהי' : '') + '</span>';
 }
 function dfOfGroup(sg) {
   const X = DOMX(); if (!X) return '';
@@ -600,8 +601,8 @@ function tkDomestic(b) {
   const X = DOMX();
   if (!X) { tkDomGroups(b); return; }
   const lab = { f: 'טיסה לישראל', sg: 'קבוצה', day: 'יום טיסת פנים', df: 'טיסת פנים' };
-  const fmt = { f: v => DIM.f.fmt(v), sg: v => 'קבוצה ' + v, day: v => v === 'delhi' ? 'כבר בדלהי' : dshort(v), df: v => dfName(v, true) };
-  const ord = { f: v => Number(v), sg: v => (D.olim.subgroups || []).findIndex(s => s.id === v), day: v => v === 'delhi' ? 'z' : v, df: v => dfOrder(v) };
+  const fmt = { f: v => DIM.f.fmt(v), sg: v => 'קבוצה ' + v, day: v => v === 'delhi' ? 'כבר בדלהי' : v === 'tbd' ? 'תאריך לא נקבע (אימפל)' : dshort(v), df: v => dfName(v, true) };
+  const ord = { f: v => Number(v), sg: v => (D.olim.subgroups || []).findIndex(s => s.id === v), day: v => v === 'delhi' ? 'zz' : v === 'tbd' ? 'z' : v, df: v => dfOrder(v) };
   let h = '<div class="filters">' + Object.keys(lab).map(k => {
     const c = {}; dRows(k).forEach(r => { const v = dRowVal(r, k); c[v] = (c[v] || 0) + r[4]; });
     const vals = Object.keys(c).sort((a, b) => { const x = ord[k](a), y = ord[k](b); return x < y ? -1 : x > y ? 1 : 0; });
@@ -625,7 +626,7 @@ function tkDomestic(b) {
     A.forEach(r => {
       const f = dfById(r.id); const tot = (all[r.id] || r).n; tn += r.n;
       if (r.id === 'delhi') td += r.n; else ti += r.inf;
-      const g = f && f.plan ? (tot === f.plan ? '<span class="dtag ok">תואם לגאנט</span>' : '<span class="dtag warn">' + tot + ' מול ' + f.plan + ' בגאנט</span>') : (f && f.dmu ? '<span class="dtag bad">לא בגאנט</span>' : '');
+      const g = f && f.plan && f.date ? (tot === f.plan ? '<span class="dtag ok">תואם לגאנט</span>' : '<span class="dtag warn">' + tot + ' מול ' + f.plan + ' בגאנט</span>') : (f && (f.dmu || !f.date) ? '<span class="dtag bad">לא בגאנט</span>' : '');
       x += '<tr class="cl' + (S.DF.df === r.id ? ' on' : '') + '" data-dset="' + esc(r.id) + '"><td>' + dfCell(r.id) + '</td><td>' + sgSort(Object.keys(r.sgs)).map(s => '<span class="dtag">' + esc(s) + '</span>').join(' ') + '</td><td style="white-space:nowrap">' + Object.keys(r.fl).sort((a, b) => a - b).map(v => esc(DIM.f.fmt(v))).join('<br>') + '</td>' +
         '<td class="n"><b class="num">' + r.n + '</b></td><td class="n num">' + (r.id === 'delhi' ? '' : r.n - r.inf) + '</td><td class="n num">' + (r.id === 'delhi' ? '' : r.inf) + '</td><td>' + g + prop(r.prop) + '</td></tr>';
     });

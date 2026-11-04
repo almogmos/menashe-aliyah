@@ -17,7 +17,7 @@ Sheets without a date in their name (the summary, additions, "not arriving") are
 The domestic flight of each person follows the same rule as the full board (tkDomApply):
 already in Delhi by file -> "delhi"; otherwise the flight on the group's domestic day (Dimapur flight for
 olim whose flight notes say Dimapur); where a group has two flights that day and the board's manual map
-has no choice for the file, families are proposed in file order, whole files together, up to each flight's plan.
+has no choice for the file, the person waits on a "pend:<date>" entry for that day (no automatic split).
 """
 import collections, datetime, json, os, re, sys
 import openpyxl
@@ -82,53 +82,24 @@ def assign_domestic(people, plan, sg_order):
         p['cand'] = cand
         if mp.get(p['file']) in cand:
             p['df'], p['manual'] = mp[p['file']], True
-    sets = collections.defaultdict(list)
+    # No automatic split: a group with two flights on its day and no manual choice waits on a "pending" entry for that day.
+    pend = {}
     for p in people:
-        if p['cand'] and not p['manual']:
-            sets[','.join(p['cand'])].append(p)
-    for k, L in sets.items():
-        ids = k.split(',')
-        used = {i: sum(1 for p in people if p['df'] == i) for i in ids}
-        size = collections.Counter(p['sg'] for p in L)
-        L = sorted(L, key=lambda p: (size[p['sg']], sg_order.get(p['sg'], 0), p['f'], p['n']))
-        files, by_file = [], collections.OrderedDict()
-        for p in L:
-            if p['file'] not in by_file:
-                by_file[p['file']] = []
-                files.append(p['file'])
-            by_file[p['file']].append(p)
-        for fi in files:
-            ms = by_file[fi]
-            fid = next((i for i in ids if used[i] + len(ms) <= int(by_id[i].get('plan') or 0)), None)
-            if fid is None:
-                fid = sorted(ids, key=lambda i: -(int(by_id[i].get('plan') or 0) - used[i]))[0]
-            for p in ms:
-                p['df'], p['auto'] = fid, True
-            used[fid] += len(ms)
-        if len(ids) == 2:
-            a, b = ids
-            target = int(by_id[a].get('plan') or 0) - sum(1 for p in people if p['df'] == a and p['manual'])
-            sz = lambda fi: len(by_file[fi])
-            on = lambda i: [fi for fi in files if by_file[fi][0]['df'] == i]
-
-            def move(fi, i):
-                for p in by_file[fi]:
-                    p['df'] = i
-            for _ in range(30):
-                diff = target - sum(sz(fi) for fi in on(a))
-                if not diff:
-                    break
-                src = on(b) if diff > 0 else on(a)
-                fi = next((x for x in reversed(src) if sz(x) == abs(diff)), None)
-                if fi:
-                    move(fi, a if diff > 0 else b)
-                    continue
-                sw = next(((x, y) for x in reversed(on(a)) for y in on(b) if sz(y) - sz(x) == diff), None)
-                if sw:
-                    move(sw[0], b)
-                    move(sw[1], a)
-                    continue
-                break
+        if not p['cand'] or p['manual']:
+            continue
+        c0 = by_id[p['cand'][0]]
+        pid = 'pend:' + c0['date'] + (':dmu' if c0.get('dmu') else '')
+        if pid not in pend:
+            cs = [by_id[x] for x in p['cand']]
+            pend[pid] = {'id': pid, 'pend': True, 'date': c0['date'], 'from': c0.get('from', ''), 'cands': list(p['cand']),
+                         'no': ' ו-'.join(f['no'] for f in cs if f.get('no')), 'deps': [f['dep'] for f in cs if f.get('dep')],
+                         'plan': sum(int(f.get('plan') or 0) for f in cs),
+                         'sgs': sorted({s for f in cs for s in (f.get('sgs') or [])}),
+                         'escort': ', '.join(f['escort'] for f in cs if f.get('escort'))}
+        p['df'] = pid
+    used = {p['df'] for p in people}
+    hidden = {x for v in pend.values() for x in v['cands'] if x not in used}
+    return [f for f in flights if f['id'] not in hidden] + list(pend.values())
 
 
 def main():
@@ -188,8 +159,8 @@ def main():
         sys.exit('no passengers found in ' + src)
     doc = {'source': label, 'people': out}
     if plan and all(w['sg'] for w in work):
-        assign_domestic(work, plan, sg_order)
-        by_id = {f['id']: f for f in plan.get('flights', [])}
+        flights_out = assign_domestic(work, plan, sg_order)
+        by_id = {f['id']: f for f in flights_out}
         agg = collections.Counter()
         inf = collections.Counter()
         for w in work:
@@ -202,9 +173,9 @@ def main():
                 inf[k] += 1
         doc['domestic'] = {
             'source': plan.get('source', ''),
-            'flights': [{x: f.get(x) for x in ('id', 'date', 'no', 'dep', 'arr', 'from', 'sgs', 'plan', 'escort', 'dmu') if f.get(x) not in (None, '')}
-                        for f in plan.get('flights', [])],
-            # rows: flight to Israel, group, domestic flight, proposed (not yet assigned by name), people, infants
+            'flights': [{x: f.get(x) for x in ('id', 'date', 'no', 'dep', 'deps', 'arr', 'from', 'sgs', 'plan', 'escort', 'dmu', 'pend', 'cands') if f.get(x) not in (None, '', [])}
+                        for f in flights_out],
+            # rows: flight to Israel, group, domestic flight (pend:<date> = two flights that day, not yet assigned by name), unused, people, infants
             'rows': [[k[0], k[1], k[2], k[3], n, inf[k]] for k, n in sorted(agg.items(), key=lambda x: str(x[0]))],
         }
     os.makedirs(db, exist_ok=True)

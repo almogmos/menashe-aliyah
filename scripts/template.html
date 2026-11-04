@@ -562,12 +562,14 @@ function dfById(id) { return dfList().find(f => f.id === id); }
 function dfName(id, noTime) {
   if (id === 'delhi') return 'כבר בדלהי, בלי טיסת פנים';
   const f = dfById(id); if (!f) return 'לא שובץ';
+  if (f.pend) return dshort(f.date) + ' · ' + f.no + ', טרם שובץ';
   const b = [dshort(f.date), f.no || ('מ' + f.from)]; if (f.dep && !noTime) b.push(f.dep); return b.join(' · ');
 }
 function dfOrder(id) { if (id === 'delhi') return 900; const i = dfList().findIndex(f => f.id === id); return i < 0 ? 999 : i; }
 function dfCell(id) {
   if (id === 'delhi') return '<b>כבר בדלהי</b><div class="note">בלי טיסת פנים</div>';
   const f = dfById(id); if (!f) return '<span class="note">לא שובץ</span>';
+  if (f.pend) return '<b class="num">' + dshort(f.date) + '</b> <b>' + esc(f.no) + '</b><div class="note">מ' + esc(f.from || 'אייזול') + ', ' + (f.deps || []).map(d => '<span class="num">' + esc(d) + '</span>').join(' ו-') + '</div><div><span class="dtag prop">טרם שובץ בין שתי הטיסות</span></div>' + (f.escort ? '<div class="note">מלווה: ' + esc(f.escort) + '</div>' : '');
   return '<b class="num">' + dshort(f.date) + '</b> <b>' + esc(f.no || 'מ' + f.from) + '</b>' +
     (f.dep ? '<div class="note">מ' + esc(f.from || 'אייזול') + ', <span class="num">' + esc(f.dep) + '</span>' + (f.arr ? ' עד <span class="num">' + esc(f.arr) + '</span>' : '') + '</div>' : (f.no ? '' : '<div class="note">מספר הטיסה עוד לא ידוע</div>')) +
     (f.escort ? '<div class="note">מלווה: ' + esc(f.escort) + '</div>' : '');
@@ -579,7 +581,7 @@ function dRows(skip) { const X = DOMX(); return (X ? X.rows : []).filter(r => Ob
 function dfCardLine(fno) {
   const X = DOMX(); if (!X) return '';
   const days = {}; let dly = 0;
-  X.rows.forEach(r => { if (r[0] !== fno) return; if (r[2] === 'delhi') { dly += r[4]; return; } const f = dfById(r[2]); if (f) (days[f.date] = days[f.date] || {})[f.id] = 1; });
+  X.rows.forEach(r => { if (r[0] !== fno) return; if (r[2] === 'delhi') { dly += r[4]; return; } const f = dfById(r[2]); if (f) (f.pend ? f.cands : [f.id]).forEach(x => (days[f.date] = days[f.date] || {})[x] = 1); });
   const ks = Object.keys(days).sort();
   return '<span class="dfc">פנים: ' + ks.map(d => { const n = Object.keys(days[d]).length; return '<span class="num">' + dshort(d) + '</span>' + (n > 1 ? ' (' + n + ' טיסות)' : ''); }).join(', ') + (dly ? '<br>' + dly + ' כבר בדלהי' : '') + '</span>';
 }
@@ -628,7 +630,7 @@ function tkDomestic(b) {
         '<td class="n"><b class="num">' + r.n + '</b></td><td class="n num">' + (r.id === 'delhi' ? '' : r.n - r.inf) + '</td><td class="n num">' + (r.id === 'delhi' ? '' : r.inf) + '</td><td>' + g + prop(r.prop) + '</td></tr>';
     });
     x += '<tr class="tot"><td colspan="3"><b>סך הכל</b></td><td class="n"><b class="num">' + tn + '</b></td><td class="n num">' + (tn - td - ti) + '</td><td class="n num">' + ti + '</td><td></td></tr></tbody></table></div>' +
-      '<p class="note" style="margin-top:10px">ב-15.11, 18.11 ו-22.11 יש שתי טיסות ביום. עד שיגיע השיבוץ השמי, המשפחות מחולקות ביניהן בהצעה לפי סדר המשפחות, תיקים שלמים יחד. מושבים: מגיל שנתיים ביום טיסת הפנים. לחיצה על שורה מסננת לפיה.</p></div>';
+      '<p class="note" style="margin-top:10px">בימים עם שתי טיסות (' + dfList().filter(f => f.pend).map(f => dshort(f.date)).join(', ') + ') העולים עוד לא שובצו לטיסה מסוימת, עד שיגיע השיבוץ השמי. מושבים: מגיל שנתיים ביום טיסת הפנים. לחיצה על שורה מסננת לפיה.</p></div>';
     box.innerHTML = x;
   } else {
     let x = '<p class="note" style="margin:0 0 12px">לכל טיסה לישראל: מאילו טיסות פנים מגיעים העולים שלה לדלהי. לחיצה על שורה מסננת לפיה.</p><div class="grid g2">';

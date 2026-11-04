@@ -226,7 +226,7 @@ def main():
         dom = rdoc.get('domestic')
         if dom:
             for f in dom.get('flights', []):
-                if set(f) - {'id', 'date', 'no', 'dep', 'arr', 'from', 'sgs', 'plan', 'escort', 'dmu'}:
+                if set(f) - {'id', 'date', 'no', 'dep', 'deps', 'arr', 'from', 'sgs', 'plan', 'escort', 'dmu', 'pend', 'cands'}:
                     sys.exit('domestic flights hold fields beyond the schedule')
             data['domestic'] = {'source': dom.get('source', ''), 'flights': dom.get('flights', []), 'rows': dom.get('rows', [])}
         cube = collections.Counter()

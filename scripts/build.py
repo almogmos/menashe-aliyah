@@ -9,6 +9,8 @@ Usage: python3 scripts/build.py <db_dir>
 Only aliyah material from 11.11.2026 is published. Interviews, budget and documents
 are never read. Olim appear only as counts: no names, birth dates, passports,
 family files or free-text notes leave this script.
+The one exception is roster.json (from scripts/import_flights.py): full name, the last 4
+passport characters and the flight number per person.
 """
 import collections, datetime, hashlib, json, os, re, sys
 
@@ -211,6 +213,25 @@ def main():
     data['visa'] = visa
 
     data['olim'] = build_olim(db) if os.path.exists(os.path.join(db, 'ticketing/meta.json')) else prev.get('olim')
+
+    # Roster from the flights workbook: name, last 4 passport characters and flight only.
+    rdoc = load(db, 'roster.json')
+    if rdoc is not None:
+        people = sorted(rdoc.get('people', []), key=lambda p: (p['f'], p['he']))
+        for p in people:
+            if set(p) - {'f', 'he', 'en', 'pp4'} or len(p.get('pp4', '')) > 4:
+                sys.exit('roster.json holds fields beyond name, pp4 and flight')
+        roster = {'source': rdoc.get('source', ''), 'imported': datetime.date.today().isoformat(), 'people': people}
+        cube = collections.Counter()
+        for r in (data.get('olim') or {}).get('cube', []):
+            cube[r[0]] += r[11]
+        rc = collections.Counter(p['f'] for p in people)
+        if cube and dict(rc) != dict(cube):
+            print('WARNING: roster per flight', dict(sorted(rc.items())), 'differs from board counts', dict(sorted(cube.items())))
+    else:
+        roster = prev.get('roster')
+    if roster:
+        data['roster'] = roster
 
     # Board document versions seen so far (integers only), used to skip unchanged sources.
     src = dict(prev.get('src') or {})

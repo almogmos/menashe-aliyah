@@ -237,6 +237,9 @@ def main():
     src = dict(prev.get('src') or {})
     src.update({k: int(v) for k, v in (load(db, 'versions.json', {}) or {}).items()})
     data['src'] = src
+    snap = load(db, 'snapshot.json')
+    if snap or prev.get('snap'):
+        data['snap'] = {k: str(v) for k, v in (snap or prev['snap']).items() if k in ('hash', 'at')}
 
     body = json.dumps(data, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
     digest = hashlib.sha256(body.encode()).hexdigest()[:12]

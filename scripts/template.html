@@ -220,6 +220,11 @@ table.pv th.rh{color:var(--ink);font-weight:700;font-size:14.5px;white-space:nor
 table.pv tr.tot td,table.pv tr.tot th{border-top:2px solid var(--navy);font-weight:800;color:var(--navy)}
 .prog{height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;min-width:80px;margin-top:5px}
 .prog i{display:block;height:100%;background:var(--save)}
+.dtag{display:inline-block;font-size:12.5px;font-weight:700;padding:1px 9px;border-radius:999px;background:var(--tint);color:var(--blue);white-space:nowrap}
+.dtag.ok{background:var(--save-soft);color:var(--save)}.dtag.warn{background:var(--warm-soft);color:var(--warm)}.dtag.bad{background:var(--over-soft);color:var(--over)}.dtag.prop{background:var(--surface2);color:var(--muted);border:1px dashed #C9D6E6}
+.dmodes{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+table.dom td{font-size:14.5px;vertical-align:top}table.dom td.num{display:table-cell}table.dom tr.cl{cursor:pointer}table.dom tr.cl:hover td{background:var(--surface2)}table.dom tr.on td{background:var(--tint)}
+.dfc{display:block;font-size:12.5px;color:var(--warm);font-weight:700;margin-top:2px}
 
 /* ceremonies */
 .wcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px 20px;margin-bottom:14px}
@@ -258,7 +263,7 @@ footer svg{width:28px;height:24px;color:var(--sky-deep)}
 
 <script>
 const D = /*__DATA__*/null;
-const S = { area: 'home', day: null, tkView: 'overview', F: {}, pv: { rows: 'sg', cols: 'pop' } };
+const S = { area: 'home', day: null, tkView: 'overview', F: {}, pv: { rows: 'sg', cols: 'pop' }, dm: 'israel', DF: {} };
 const $ = (q, r) => (r || document).querySelector(q);
 const $$ = (q, r) => [...(r || document).querySelectorAll(q)];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -519,7 +524,7 @@ function flightCards(L) {
     const R = L.filter(r => r[0] === f.f); const n = sumN(R);
     const pc = counts(R, 'pop'); const inf = counts(R, 'fare').infant || 0;
     return '<button class="tkfl' + (S.F.f === String(f.f) ? ' on' : '') + '" data-set="f" data-val="' + f.f + '"><span class="t">טיסה ' + f.f + ' · <span class="num">' + dshort(f.date) + '</span></span><span class="k">' + esc(f.carrier || '') + (f.escort ? ', מלווה: ' + esc(f.escort) : '') + '</span><b class="num">' + plain(n) + '</b><span class="s">' + (inf ? inf + ' תינוקות' : 'נפשות') + '</span>' +
-      '<span class="vz">' + vzShort(D.visa[f.f], flightCount(f.f)) + '</span><span class="mix">' + POP_ORDER.filter(k => pc[k]).map(k => '<i title="' + POP[k] + ': ' + pc[k] + '" style="flex:' + pc[k] + ';background:' + POP_COLOR[k] + '"></i>').join('') + '</span></button>';
+      dfCardLine(f.f) + '<span class="vz">' + vzShort(D.visa[f.f], flightCount(f.f)) + '</span><span class="mix">' + POP_ORDER.filter(k => pc[k]).map(k => '<i title="' + POP[k] + ': ' + pc[k] + '" style="flex:' + pc[k] + ';background:' + POP_COLOR[k] + '"></i>').join('') + '</span></button>';
   }).join('') + '</div><div class="legend">' + POP_ORDER.map(k => '<span><i style="background:' + POP_COLOR[k] + '"></i>' + POP[k] + '</span>').join('') + '</div>';
 }
 function vzShort(v, tot) { if (!v || !Number(v.sent)) return '<span class="note" style="font-weight:600">טרם הועברו לרשות האוכלוסין</span>'; return 'רשות האוכלוסין: ' + (tot ? Math.round(Number(v.ok || 0) / tot * 100) : 0) + '% אושרו'; }
@@ -550,16 +555,105 @@ function tkPivot(b) {
   $('#pvC', b).onchange = e => { S.pv.cols = e.target.value; tkPivot(b); };
   $('#pvS', b).onclick = () => { if (!S.pv.cols) return; S.pv = { rows: S.pv.cols, cols: S.pv.rows }; tkPivot(b); };
 }
+/* ---------- domestic flights to Delhi: from the board's domestic plan and the flights workbook ---------- */
+const DOMX = () => D.domestic || null;
+function dfList() { const X = DOMX(); if (!X) return []; if (!X._s) X._s = X.flights.slice().sort((a, b) => (a.date + (a.dep || '99:99') + (a.dmu ? '1' : '0')).localeCompare(b.date + (b.dep || '99:99') + (b.dmu ? '1' : '0'))); return X._s; }
+function dfById(id) { return dfList().find(f => f.id === id); }
+function dfName(id, noTime) {
+  if (id === 'delhi') return 'כבר בדלהי, בלי טיסת פנים';
+  const f = dfById(id); if (!f) return 'לא שובץ';
+  const b = [dshort(f.date), f.no || ('מ' + f.from)]; if (f.dep && !noTime) b.push(f.dep); return b.join(' · ');
+}
+function dfOrder(id) { if (id === 'delhi') return 900; const i = dfList().findIndex(f => f.id === id); return i < 0 ? 999 : i; }
+function dfCell(id) {
+  if (id === 'delhi') return '<b>כבר בדלהי</b><div class="note">בלי טיסת פנים</div>';
+  const f = dfById(id); if (!f) return '<span class="note">לא שובץ</span>';
+  return '<b class="num">' + dshort(f.date) + '</b> <b>' + esc(f.no || 'מ' + f.from) + '</b>' +
+    (f.dep ? '<div class="note">מ' + esc(f.from || 'אייזול') + ', <span class="num">' + esc(f.dep) + '</span>' + (f.arr ? ' עד <span class="num">' + esc(f.arr) + '</span>' : '') + '</div>' : (f.no ? '' : '<div class="note">מספר הטיסה עוד לא ידוע</div>')) +
+    (f.escort ? '<div class="note">מלווה: ' + esc(f.escort) + '</div>' : '');
+}
+// rows: [flight to Israel, group, domestic flight, proposed, people, infants]
+const DKEYS = { f: 0, sg: 1, df: 2 };
+function dRowVal(r, k) { if (k === 'day') { if (r[2] === 'delhi') return 'delhi'; const f = dfById(r[2]); return f ? f.date : ''; } return String(r[DKEYS[k]]); }
+function dRows(skip) { const X = DOMX(); return (X ? X.rows : []).filter(r => Object.keys(S.DF).every(k => k === skip || !S.DF[k] || dRowVal(r, k) === S.DF[k])); }
+function dfCardLine(fno) {
+  const X = DOMX(); if (!X) return '';
+  const days = {}; let dly = 0;
+  X.rows.forEach(r => { if (r[0] !== fno) return; if (r[2] === 'delhi') { dly += r[4]; return; } const f = dfById(r[2]); if (f) (days[f.date] = days[f.date] || {})[f.id] = 1; });
+  const ks = Object.keys(days).sort();
+  return '<span class="dfc">פנים: ' + ks.map(d => { const n = Object.keys(days[d]).length; return '<span class="num">' + dshort(d) + '</span>' + (n > 1 ? ' (' + n + ' טיסות)' : ''); }).join(', ') + (dly ? '<br>' + dly + ' כבר בדלהי' : '') + '</span>';
+}
+function dfOfGroup(sg) {
+  const X = DOMX(); if (!X) return '';
+  const c = {}; X.rows.forEach(r => { if (r[1] === sg) c[r[2]] = (c[r[2]] || 0) + r[4]; });
+  return '<div class="note">' + Object.keys(c).sort((a, b) => dfOrder(a) - dfOrder(b)).map(k => esc(dfName(k, true)) + ': <span class="num">' + c[k] + '</span>').join('<br>') + '</div>';
+}
+function dAgg(L) {
+  const by = {};
+  L.forEach(r => { const x = by[r[2]] = by[r[2]] || { id: r[2], n: 0, inf: 0, sgs: {}, fl: {}, prop: 0 }; x.n += r[4]; x.inf += r[5]; x.sgs[r[1]] = 1; x.fl[r[0]] = 1; if (r[3]) x.prop += r[4]; });
+  return Object.values(by).sort((a, b) => dfOrder(a.id) - dfOrder(b.id));
+}
+const sgSort = a => a.sort((x, y) => (D.olim.subgroups || []).findIndex(s => s.id === x) - (D.olim.subgroups || []).findIndex(s => s.id === y));
 function tkDomestic(b) {
+  const X = DOMX();
+  if (!X) { tkDomGroups(b); return; }
+  const lab = { f: 'טיסה לישראל', sg: 'קבוצה', day: 'יום טיסת פנים', df: 'טיסת פנים' };
+  const fmt = { f: v => DIM.f.fmt(v), sg: v => 'קבוצה ' + v, day: v => v === 'delhi' ? 'כבר בדלהי' : dshort(v), df: v => dfName(v, true) };
+  const ord = { f: v => Number(v), sg: v => (D.olim.subgroups || []).findIndex(s => s.id === v), day: v => v === 'delhi' ? 'z' : v, df: v => dfOrder(v) };
+  let h = '<div class="filters">' + Object.keys(lab).map(k => {
+    const c = {}; dRows(k).forEach(r => { const v = dRowVal(r, k); c[v] = (c[v] || 0) + r[4]; });
+    const vals = Object.keys(c).sort((a, b) => { const x = ord[k](a), y = ord[k](b); return x < y ? -1 : x > y ? 1 : 0; });
+    return '<div><label for="d_' + k + '">' + lab[k] + '</label><select id="d_' + k + '" data-df="' + k + '"><option value="">הכל</option>' + vals.map(v => '<option value="' + esc(v) + '"' + (S.DF[k] === v ? ' selected' : '') + '>' + esc(fmt[k](v)) + ' (' + c[v] + ')</option>').join('') + '</select></div>';
+  }).join('') + '</div>';
+  const act = Object.keys(S.DF).filter(k => S.DF[k]);
+  if (act.length) h += '<div class="fbar">מסונן לפי: ' + act.map(k => '<b>' + esc(fmt[k](S.DF[k])) + '</b>').join(', ') + ' <button class="btn" id="dclr">ניקוי הסינון</button></div>';
+  h += '<div class="dmodes">' + [['israel', 'לפי טיסה לישראל'], ['flight', 'לפי טיסת פנים'], ['group', 'לפי קבוצה']].map(([k, v]) => '<button class="chip" data-dm="' + k + '" aria-pressed="' + (S.dm === k) + '">' + v + '</button>').join('') + '</div><div id="dBody"></div>';
+  b.innerHTML = h;
+  $$('[data-df]', b).forEach(x => x.onchange = () => { S.DF[x.dataset.df] = x.value; tkDomestic(b); });
+  $$('[data-dm]', b).forEach(x => x.onclick = () => { S.dm = x.dataset.dm; tkDomestic(b); });
+  const c = $('#dclr', b); if (c) c.onclick = () => { S.DF = {}; tkDomestic(b); };
+  const box = $('#dBody', b); const L = dRows();
+  const setDf = id => { S.DF.df = S.DF.df === id ? '' : id; tkDomestic(b); };
+  if (S.dm === 'group') { tkDomGroups(box); return; }
+  const prop = n => n ? '<div><span class="dtag prop">' + n + ' בשיבוץ מוצע</span></div>' : '';
+  if (S.dm === 'flight') {
+    const A = dAgg(L); const all = {}; dAgg(X.rows).forEach(x => all[x.id] = x);
+    let tn = 0, ti = 0, td = 0;
+    let x = '<div class="panel"><h2>טיסות פנים לדלהי</h2><p class="sub">לפי סדר הזמנים. ' + esc(X.source || '') + '. השעות ומספרי הטיסות לפי הגאנט.</p><div class="tbl-wrap"><table class="dom"><thead><tr><th>טיסת פנים</th><th>קבוצות</th><th>לטיסה לישראל</th><th class="n">נפשות</th><th class="n">מושבים</th><th class="n">תינוקות</th><th>מול הגאנט</th></tr></thead><tbody>';
+    A.forEach(r => {
+      const f = dfById(r.id); const tot = (all[r.id] || r).n; tn += r.n;
+      if (r.id === 'delhi') td += r.n; else ti += r.inf;
+      const g = f && f.plan ? (tot === f.plan ? '<span class="dtag ok">תואם לגאנט</span>' : '<span class="dtag warn">' + tot + ' מול ' + f.plan + ' בגאנט</span>') : (f && f.dmu ? '<span class="dtag bad">לא בגאנט</span>' : '');
+      x += '<tr class="cl' + (S.DF.df === r.id ? ' on' : '') + '" data-dset="' + esc(r.id) + '"><td>' + dfCell(r.id) + '</td><td>' + sgSort(Object.keys(r.sgs)).map(s => '<span class="dtag">' + esc(s) + '</span>').join(' ') + '</td><td style="white-space:nowrap">' + Object.keys(r.fl).sort((a, b) => a - b).map(v => esc(DIM.f.fmt(v))).join('<br>') + '</td>' +
+        '<td class="n"><b class="num">' + r.n + '</b></td><td class="n num">' + (r.id === 'delhi' ? '' : r.n - r.inf) + '</td><td class="n num">' + (r.id === 'delhi' ? '' : r.inf) + '</td><td>' + g + prop(r.prop) + '</td></tr>';
+    });
+    x += '<tr class="tot"><td colspan="3"><b>סך הכל</b></td><td class="n"><b class="num">' + tn + '</b></td><td class="n num">' + (tn - td - ti) + '</td><td class="n num">' + ti + '</td><td></td></tr></tbody></table></div>' +
+      '<p class="note" style="margin-top:10px">ב-15.11, 18.11 ו-22.11 יש שתי טיסות ביום. עד שיגיע השיבוץ השמי, המשפחות מחולקות ביניהן בהצעה לפי סדר המשפחות, תיקים שלמים יחד. מושבים: מגיל שנתיים ביום טיסת הפנים. לחיצה על שורה מסננת לפיה.</p></div>';
+    box.innerHTML = x;
+  } else {
+    let x = '<p class="note" style="margin:0 0 12px">לכל טיסה לישראל: מאילו טיסות פנים מגיעים העולים שלה לדלהי. לחיצה על שורה מסננת לפיה.</p><div class="grid g2">';
+    flightsTo().forEach(fl => {
+      const R = L.filter(r => r[0] === fl.f); if (!R.length) return;
+      const n = R.reduce((s, r) => s + r[4], 0);
+      x += '<div class="panel"><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:1"><h2>טיסה ' + fl.f + ' לישראל · <span class="num">' + dshort(fl.date) + '</span></h2><p class="sub">' + esc(fl.carrier || '') + (fl.route ? ', ' + esc(fl.route) : '') + (fl.escort ? '. מלווה: ' + esc(fl.escort) : '') + '</p></div><b class="num" style="font-family:var(--numf);font-size:32px;color:var(--navy)">' + n + '</b></div>' +
+        '<div class="tbl-wrap"><table class="dom"><thead><tr><th>טיסת פנים</th><th>קבוצות</th><th class="n">נפשות</th><th class="n">מושבים</th><th class="n">תינוקות</th></tr></thead><tbody>' +
+        dAgg(R).map(r => '<tr class="cl' + (S.DF.df === r.id ? ' on' : '') + '" data-dset="' + esc(r.id) + '"><td>' + dfCell(r.id) + prop(r.prop) + '</td><td>' + sgSort(Object.keys(r.sgs)).map(s => '<span class="dtag">' + esc(s) + '</span>').join(' ') + '</td><td class="n"><b class="num">' + r.n + '</b></td><td class="n num">' + (r.id === 'delhi' ? '' : r.n - r.inf) + '</td><td class="n num">' + (r.id === 'delhi' ? '' : r.inf) + '</td></tr>').join('') +
+        '</tbody></table></div></div>';
+    });
+    box.innerHTML = x + '</div>';
+  }
+  $$('[data-dset]', box).forEach(tr => tr.onclick = () => setDf(tr.dataset.dset));
+}
+function tkDomGroups(b) {
   const T = D.olim; const L = cubeRows();
   const G = {}; (D.groups || []).forEach(g => G[g.id] = g);
-  let h = '<div class="panel"><h2>קבוצות בטיסות הפנים מאייזול לדלהי</h2><p class="sub">היעד מול מה שבקובץ, ותקופת השהייה במלון העולים בדלהי</p><div class="tbl-wrap"><table><thead><tr><th>קבוצה</th><th>טיסת פנים</th><th>בדלהי</th><th>טיסה לישראל</th><th>מלווה</th><th>יעד</th><th class="n">בקובץ</th></tr></thead><tbody>';
+  let h = '<div class="panel"><h2>קבוצות בטיסות הפנים לדלהי</h2><p class="sub">היעד מול מה שבקובץ, ותקופת השהייה במלון העולים בדלהי</p><div class="tbl-wrap"><table><thead><tr><th>קבוצה</th><th>טיסת פנים</th><th>בדלהי</th><th>טיסה לישראל</th><th>מלווה</th><th>יעד</th><th class="n">בקובץ</th></tr></thead><tbody>';
   let st = 0, sa = 0;
   (T.subgroups || []).forEach(s => {
     const R = L.filter(r => r[1] === s.id); const n = sumN(R); const pc = counts(R, 'pop');
     const tgt = Object.keys(s.target || {}).reduce((x, k) => x + s.target[k], 0); st += tgt; sa += n;
     const g = G[s.id]; const fl = flightsTo().find(f => f.f === s.f);
-    h += '<tr><td><b>' + esc(s.id) + '</b></td><td>' + dshort(s.dom) + '</td><td>' + (g ? dshort(g.from) + ' עד ' + dshort(g.to) : '') + '</td><td>' + (fl ? 'טיסה ' + fl.f + ', ' + dshort(fl.date) : '') + '</td><td>' + esc(s.escort || '') + '</td><td>' +
+    h += '<tr><td><b>' + esc(s.id) + '</b></td><td>' + dshort(s.dom) + dfOfGroup(s.id) + '</td><td>' + (g ? dshort(g.from) + ' עד ' + dshort(g.to) : '') + '</td><td>' + (fl ? 'טיסה ' + fl.f + ', ' + dshort(fl.date) : '') + '</td><td>' + esc(s.escort || '') + '</td><td>' +
       Object.keys(s.target || {}).map(k => esc(POP[k] || k) + ' <span class="num">' + s.target[k] + '</span>').join('<br>') + '</td><td class="n"><b class="num"' + (n !== tgt ? ' style="color:var(--over)"' : '') + '>' + n + '</b><div class="note">' + POP_ORDER.filter(k => pc[k]).map(k => POP[k] + ' ' + pc[k]).join(', ') + '</div></td></tr>';
   });
   h += '<tr><td colspan="5"><b>סך הכל</b></td><td><b class="num">' + st + '</b></td><td class="n"><b class="num">' + sa + '</b></td></tr></tbody></table></div><p class="note" style="margin-top:10px">מספר באדום: יש פער בין היעד לקבוצה לבין מה שרשום בקובץ הטיסות.</p></div>';
@@ -589,22 +683,24 @@ function tkIssues(b) {
 
 /* ---------- roster: name, last 4 passport characters, flight ---------- */
 function tkRoster(b) {
-  const R = D.roster; S.rf = S.rf || ''; S.rq = S.rq || '';
+  const R = D.roster; S.rf = S.rf || ''; S.rq = S.rq || ''; S.rdf = S.rdf || '';
   const fl = flightsTo();
   let h = '<div class="panel"><h2>רשימת עולים לפי טיסה</h2><p class="sub">לפי ' + esc(R.source) + (R.imported ? ', נטען ב-' + dshort(R.imported) : '') + '. דרכון: רק 4 הספרות האחרונות.</p>' +
     '<div class="rs-bar"><div class="chips"><button class="chip" data-rf="" aria-pressed="' + (S.rf === '') + '">כל הטיסות <span class="num">' + plain(R.people.length) + '</span></button>' +
     fl.map(f => '<button class="chip" data-rf="' + f.f + '" aria-pressed="' + (S.rf === String(f.f)) + '">טיסה ' + f.f + ' · <span class="num">' + dshort(f.date) + '</span></button>').join('') + '</div>' +
+    (DOMX() ? '<select id="rdf" aria-label="סינון לפי טיסת פנים" style="flex:0 1 230px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:7px 10px"><option value="">כל טיסות הפנים</option>' + [...new Set(R.people.map(p => p.df || ''))].sort((a, b) => dfOrder(a) - dfOrder(b)).map(v => '<option value="' + esc(v) + '"' + (S.rdf === v ? ' selected' : '') + '>' + esc(dfName(v, true)) + ' (' + R.people.filter(p => (p.df || '') === v).length + ')</option>').join('') + '</select>' : '') +
     '<input type="search" id="rq" placeholder="חיפוש לפי שם או 4 ספרות" value="' + esc(S.rq) + '" aria-label="חיפוש ברשימה"></div><div id="rsList"></div></div>';
   b.innerHTML = h;
   const list = () => {
     const q = S.rq.trim().toLowerCase();
-    const L = R.people.filter(p => (!S.rf || String(p.f) === S.rf) && (!q || p.he.toLowerCase().includes(q) || p.en.toLowerCase().includes(q) || p.pp4.toLowerCase().includes(q)));
+    const L = R.people.filter(p => (!S.rf || String(p.f) === S.rf) && (!S.rdf || (p.df || '') === S.rdf) && (!q || p.he.toLowerCase().includes(q) || p.en.toLowerCase().includes(q) || p.pp4.toLowerCase().includes(q)));
     const date = f => { const x = fl.find(y => y.f === f); return x ? dshort(x.date) : ''; };
-    $('#rsList', b).innerHTML = '<p class="note">' + plain(L.length) + ' נפשות</p><div class="tbl-wrap"><table class="rs"><thead><tr><th class="n">#</th><th>שם</th><th>Name</th><th>דרכון</th><th>טיסה</th></tr></thead><tbody>' +
-      (L.length ? L.map((p, i) => '<tr><td class="n"><span class="num">' + (i + 1) + '</span></td><td>' + esc(p.he) + '</td><td dir="ltr" style="text-align:start">' + esc(p.en) + '</td><td dir="ltr" style="text-align:start"><span class="num">····' + esc(p.pp4) + '</span></td><td>טיסה ' + p.f + ' · <span class="num">' + date(p.f) + '</span></td></tr>').join('') : '<tr><td colspan="5" class="note">לא נמצאו עולים</td></tr>') + '</tbody></table></div>';
+    $('#rsList', b).innerHTML = '<p class="note">' + plain(L.length) + ' נפשות</p><div class="tbl-wrap"><table class="rs"><thead><tr><th class="n">#</th><th>שם</th><th>Name</th><th>דרכון</th><th>טיסה</th>' + (DOMX() ? '<th>קבוצה</th><th>טיסת פנים</th>' : '') + '</tr></thead><tbody>' +
+      (L.length ? L.map((p, i) => '<tr><td class="n"><span class="num">' + (i + 1) + '</span></td><td>' + esc(p.he) + '</td><td dir="ltr" style="text-align:start">' + esc(p.en) + '</td><td dir="ltr" style="text-align:start"><span class="num">····' + esc(p.pp4) + '</span></td><td>טיסה ' + p.f + ' · <span class="num">' + date(p.f) + '</span></td>' + (DOMX() ? '<td>' + esc(p.sg || '') + '</td><td>' + esc(p.df ? dfName(p.df, true) : '') + '</td>' : '') + '</tr>').join('') : '<tr><td colspan="7" class="note">לא נמצאו עולים</td></tr>') + '</tbody></table></div>';
   };
   list();
   $$('[data-rf]', b).forEach(x => x.onclick = () => { S.rf = x.dataset.rf; tkRoster(b); });
+  const rdf = $('#rdf', b); if (rdf) rdf.onchange = () => { S.rdf = rdf.value; list(); };
   const q = $('#rq', b); q.oninput = () => { S.rq = q.value; list(); };
 }
 

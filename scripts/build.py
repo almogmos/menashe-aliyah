@@ -10,7 +10,8 @@ Only aliyah material from 11.11.2026 is published. Interviews, budget and docume
 are never read. Olim appear only as counts: no names, birth dates, passports,
 family files or free-text notes leave this script.
 The one exception is roster.json (from scripts/import_flights.py): full name, the last 4
-passport characters and the flight number per person.
+passport characters, the flight number, the domestic group and the domestic flight per person,
+plus domestic flight counts (people and infants) per flight to Israel and group.
 """
 import collections, datetime, hashlib, json, os, re, sys
 
@@ -219,9 +220,15 @@ def main():
     if rdoc is not None:
         people = sorted(rdoc.get('people', []), key=lambda p: (p['f'], p['he']))
         for p in people:
-            if set(p) - {'f', 'he', 'en', 'pp4'} or len(p.get('pp4', '')) > 4:
-                sys.exit('roster.json holds fields beyond name, pp4 and flight')
+            if set(p) - {'f', 'he', 'en', 'pp4', 'sg', 'df'} or len(p.get('pp4', '')) > 4:
+                sys.exit('roster.json holds fields beyond name, pp4, flight, group and domestic flight')
         roster = {'source': rdoc.get('source', ''), 'imported': datetime.date.today().isoformat(), 'people': people}
+        dom = rdoc.get('domestic')
+        if dom:
+            for f in dom.get('flights', []):
+                if set(f) - {'id', 'date', 'no', 'dep', 'arr', 'from', 'sgs', 'plan', 'escort', 'dmu'}:
+                    sys.exit('domestic flights hold fields beyond the schedule')
+            data['domestic'] = {'source': dom.get('source', ''), 'flights': dom.get('flights', []), 'rows': dom.get('rows', [])}
         cube = collections.Counter()
         for r in (data.get('olim') or {}).get('cube', []):
             cube[r[0]] += r[11]
@@ -230,6 +237,8 @@ def main():
             print('WARNING: roster per flight', dict(sorted(rc.items())), 'differs from board counts', dict(sorted(cube.items())))
     else:
         roster = prev.get('roster')
+        if prev.get('domestic'):
+            data['domestic'] = prev['domestic']
     if roster:
         data['roster'] = roster
 

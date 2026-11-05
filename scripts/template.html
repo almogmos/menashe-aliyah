@@ -153,6 +153,16 @@ nav.tabs button[aria-selected="true"]{background:var(--tint);color:var(--blue)}
 .where b{color:var(--navy);display:block}
 .where span{font-size:14.5px;color:var(--ink)}
 .where .c{font-family:var(--numf);font-weight:700;font-size:22px;color:var(--blue);float:inline-end}
+.duty{margin-top:16px;border-top:2px solid var(--navy);padding-top:12px}
+.duty h3{margin:0;font-size:17px;font-weight:800;color:var(--navy)}
+.duty .dnote{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.duty .dloc{margin:12px 0 2px;font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:7px}
+.duty .dloc i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.duty ul{list-style:none;margin:0;padding:0}
+.duty li{display:grid;grid-template-columns:minmax(110px,30%) 1fr;gap:4px 12px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+.duty li:last-child{border-bottom:0}
+.duty li b{font-weight:700;color:var(--ink)}
+@media (max-width:600px){.duty li{grid-template-columns:1fr}}
 .nights{display:flex;align-items:flex-end;gap:4px;height:150px;padding-top:18px;overflow-x:auto}
 .nights button{flex:1;min-width:30px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;background:none;border:0;cursor:pointer;padding:0}
 .nights .bar{width:100%;max-width:34px;background:var(--sky-deep);border-radius:6px 6px 0 0;min-height:2px}
@@ -345,8 +355,20 @@ function dayCard(d, title) {
   if (key.length) h += li(key.slice(0, 6));
   if (prog.length) h += '<p class="note" style="margin:10px 0 4px">בלו״ז של משלחת הרבנים</p>' + li(prog.slice(0, 4));
   if (!E.length && !H.length) h += '<p class="note">אין אירועים מיוחדים ביום הזה.</p>';
+  h += dutyHtml(d);
   h += '<button class="linkbtn" data-goday="' + d + '">ללוח הזמנים של היום ‹</button></div>';
   return h;
+}
+const DUTY_LOC = [['MOVE', 'מאייזול לדלהי', '#E8833A'], ['AIZ', 'באייזול', '#1E8C7E'], ['DEL', 'בדלהי', '#1D5BA6'], ['IN', 'בדרך להודו', '#8A94A8'], ['OUT', 'טסים לישראל', '#4C5FD5']];
+function dutyHtml(d) {
+  const day = (D.duties || []).find(x => x.date === d);
+  if (!day || !(day.items || []).length) return '';
+  let h = '<div class="duty"><h3>מי עושה מה היום</h3>' + (day.note ? '<p class="dnote">' + esc(day.note) + '</p>' : '');
+  DUTY_LOC.forEach(([k, label, c]) => {
+    const L = day.items.filter(it => it.loc === k); if (!L.length) return;
+    h += '<div class="dloc"><i style="background:' + c + '"></i>' + label + '</div><ul>' + L.map(it => '<li><b>' + esc((it.who || []).join(', ')) + '</b><span>' + esc(it.what || '') + '</span></li>').join('') + '</ul>';
+  });
+  return h + '</div>';
 }
 function noteHTML(n) {
   if (!n) return '';
@@ -410,6 +432,7 @@ function renderSchedule(m) {
   H.forEach(x => h += '<div class="hl"><b>' + esc(SRC[x.source] || '') + ':</b> ' + esc(x.text) + '</div>');
   h += '<div class="legend">' + ['flight', 'olim', 'partner', 'welcome', 'program'].filter(k => E.some(e => e.kind === k)).map(k => '<span><i style="background:' + { flight: '#5B6CD9', olim: '#2C9A7A', partner: '#E8833A', welcome: '#C2416B', program: '#2F9FD8' }[k] + '"></i>' + KIND[k][0] + '</span>').join('') + '</div>';
   h += E.length ? E.map(evRow).join('') : '<p class="note">אין אירועים מיוחדים ביום הזה.</p>';
+  h += dutyHtml(d);
   h += '</div>';
   const places = Object.keys(W);
   h += '<div class="panel"><h2>איפה ישנים הלילה</h2><p class="sub">צוות ומשלחות, לפי הגאנט</p><ul class="where">' +

@@ -104,6 +104,22 @@ def build_schedule(g):
     return events, people, groups, places
 
 
+def build_duties(g):
+    """Daily staff summary (who does what) from gantt.duties, from START on. Names, place codes and tasks only."""
+    out = []
+    for day in g.get('duties', []) or []:
+        if day.get('date', '') < START:
+            continue
+        items = [{'who': [str(w) for w in it.get('who', [])], 'loc': it.get('loc', ''), 'what': scrub(it.get('what', ''))}
+                 for it in day.get('items', []) if it.get('who')]
+        if items:
+            d = {'date': day['date'], 'items': items}
+            if day.get('note'):
+                d['note'] = scrub(day['note'])
+            out.append(d)
+    return out
+
+
 def build_olim(db):
     meta = load(db, 'ticketing/meta.json')
     if not meta:
@@ -188,11 +204,14 @@ def main():
         events, people, groups, places = build_schedule(g)
         data.update({'start': START, 'end': (g.get('range') or {}).get('to', '2026-11-26'), 'ganttUpdated': g.get('updated', ''),
                      'events': events, 'people': people, 'groups': groups, 'places': places})
+        data['duties'] = build_duties(g)
     else:
         keys = ('start', 'end', 'ganttUpdated', 'events', 'people', 'groups', 'places')
         if not all(k in prev for k in keys):
             sys.exit('gantt/main.json not found in ' + db + ' and no previous data.json to keep')
         data.update({k: prev[k] for k in keys})
+        if prev.get('duties'):
+            data['duties'] = prev['duties']
 
     wdoc = load(db, 'welcomes/main.json')
     if wdoc is not None:

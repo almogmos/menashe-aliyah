@@ -8,10 +8,11 @@ Writes <db_dir>/roster.json. Only these fields leave the workbook, per person:
   he  full name in Hebrew (family name + given name)
   en  full name in English (given name + family name)
   pp4 last 4 characters of the passport number
+  file family file number (e.g. M290/25); the page shows it only inside one flight
   sg  domestic group (from the "הערות הסעים" column, e.g. "6ב"), when the workbook has it
   df  domestic flight id from <db_dir>/ticketing/domestic.json, or "delhi" for olim already in Delhi
-Birth dates, file numbers, parents, addresses, phones, notes and documents are never written out.
-Birth dates and file numbers are read only to count infants per domestic flight and to keep families together.
+Birth dates, parents, addresses, phones, notes and documents are never written out.
+Birth dates are read only to count infants per domestic flight.
 Sheets without a date in their name (the summary, additions, "not arriving") are skipped.
 People listed under "removed" in the domestic plan (file + given name) are left out. Files under "fixed" go to that
 domestic flight (e.g. Kangpokpi olim flying from Imphal).
@@ -155,6 +156,8 @@ def main():
             if plan and any(x.get('file') == fileno and x.get('given', '').lower() == clean(r[igiv]).lower() for x in plan.get('removed', [])):
                 seen.discard(pp)
                 continue
+            if fileno:
+                rec['file'] = fileno
             sg = clean(r[isg]).split('-')[0] if isg is not None else ''
             if sg:
                 if sg not in sg_dom:

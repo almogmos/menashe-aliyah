@@ -6,17 +6,20 @@ Usage: python3 scripts/build.py <db_dir>
 <db_dir> holds the board's documents as JSON, one folder per collection:
   gantt/main.json, welcomes/main.json, visa/main.json, ticketing/{meta,assign,p1..p6}.json
 
-Only aliyah material from 11.11.2026 is published. Interviews, budget and documents
+Only aliyah material is published: everything from 11.11.2026, and aliyah items (kind "olim") from 8.11.2026. Interviews, budget and documents
 are never read. Olim appear only as counts: no names, birth dates, passports,
 family files or free-text notes leave this script.
 The one exception is roster.json (from scripts/import_flights.py): full name, the last 4
-passport characters, the flight number, the domestic group and the domestic flight per person,
+passport characters, the family file number (shown on the page only inside one flight), the flight number, the domestic group and the domestic flight per person,
 plus domestic flight counts (people and infants) per flight to Israel and group.
 """
 import collections, datetime, hashlib, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-START = '2026-11-11'
+START = '2026-11-08'
+# Before this date only aliyah items (kind "olim": the domestic flights of the Kangpokpi olim and the like) are published.
+# The rabbis' interview programme of those days stays out.
+ALIYAH_FROM = '2026-11-11'
 SOURCES = {'gantt', 'rabbis', 'kh', 'donors'}
 
 
@@ -34,6 +37,8 @@ def scrub(t):
         return t
     t = re.sub(r'\s*[^.]*כרטיס\s+[A-Z0-9]{6}[^.]*\.?', '', t)
     t = re.sub(r'\bPNR\s*[A-Z0-9]{5,7}\b', '', t)
+    t = re.sub(r'\s*\((?=[^)]*\d)[A-Z0-9]{6}(?:\s*(?:,|ו-)\s*[A-Z0-9]{6})*\)', '', t)
+    t = re.sub(r'(הזמנ\S*)\s*:\s*(?=[A-Z0-9]*\d)[A-Z0-9]{6}(?:\s*,\s*[A-Z0-9]{6})*', r'\1', t)
     return t.strip()
 
 
@@ -73,6 +78,8 @@ def build_schedule(g):
     seen, events = set(), []
     for e in g.get('events', []):
         if e.get('date', '') < START or e.get('source') not in SOURCES:
+            continue
+        if e['date'] < ALIYAH_FROM and e.get('kind') != 'olim':
             continue
         key = (e['date'], e.get('text', ''))
         if key in seen:
@@ -239,8 +246,8 @@ def main():
     if rdoc is not None:
         people = sorted(rdoc.get('people', []), key=lambda p: (p['f'], p['he']))
         for p in people:
-            if set(p) - {'f', 'he', 'en', 'pp4', 'sg', 'df'} or len(p.get('pp4', '')) > 4:
-                sys.exit('roster.json holds fields beyond name, pp4, flight, group and domestic flight')
+            if set(p) - {'f', 'he', 'en', 'pp4', 'sg', 'df', 'file'} or len(p.get('pp4', '')) > 4:
+                sys.exit('roster.json holds fields beyond name, pp4, file number, flight, group and domestic flight')
         roster = {'source': rdoc.get('source', ''), 'imported': datetime.date.today().isoformat(), 'people': people}
         dom = rdoc.get('domestic')
         if dom:

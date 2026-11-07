@@ -333,8 +333,16 @@ function render() {
 /* ---------- home ---------- */
 function milestones() {
   const M = [];
-  const firstDelhi = (D.groups || []).reduce((a, o) => !a || o.from < a.from ? o : a, null);
-  if (firstDelhi) M.push({ date: firstDelhi.from, k: 'עולים מגיעים לדלהי', t: 'קבוצה ' + firstDelhi.id + ', ' + firstDelhi.count + ' עולים', s: firstDelhi.origin });
+  /* Next day olim arrive in Delhi: all groups arriving that day together, not just the first one. */
+  const arrDay = (D.groups || []).map(o => o.from).filter(d => d && d >= TODAY).sort()[0];
+  if (arrDay) {
+    const G = D.groups.filter(o => o.from === arrDay);
+    const n = G.reduce((s, o) => s + Number(o.count || 0), 0);
+    const gid = o => String(o.id).replace(/\s*\(.*\)\s*$/, '');
+    const ev = (D.events || []).filter(e => e.date === arrDay && e.kind === 'olim' && /טיסת פנים/.test(e.text || ''));
+    const s = ev.length ? ev.map(e => (e.text.split(':')[0]) + (e.time ? ', ' + e.time : '')).join('. ') : (G.length === 1 ? G[0].origin : '');
+    M.push({ date: arrDay, k: 'עולים מגיעים לדלהי', t: plain(n) + ' עולים' + (G.length > 1 ? ': ' + G.map(o => 'קבוצה ' + gid(o) + ' (' + o.count + ')').join(', ') : ', קבוצה ' + gid(G[0])), s: s });
+  }
   flightsTo().forEach(f => { const n = flightCount(f.f); M.push({ date: f.date, k: 'טיסה ' + f.f + ' לישראל', t: plain(n) + ' עולים, ' + (f.carrier || ''), s: f.escort ? 'מלווה: ' + f.escort : '' }); });
   (D.welcomes || []).forEach(w => M.push({ date: w.date, k: 'קבלת פנים בנתב״ג', t: w.title, s: w.time ? 'נחיתה ' + w.time : '' }));
   const upcoming = M.filter(x => x.date >= TODAY).sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);

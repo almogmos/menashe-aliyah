@@ -1376,7 +1376,7 @@
    "name": "The Metropolitan, דלהי",
    "short": "Metropolitan דלהי",
    "city": "ניו דלהי, Connaught Place",
-   "note": "משלחת הרבנים בלילה של 11.11, לפני הטיסה לישראל, וגם המלון של הצוות בכל השהייה בדלהי. במקום The Lalit, מ-16.10.",
+   "note": "משלחת הרבנים בלילה של 11.11, לפני הטיסה לישראל, וגם המלון של הצוות בכל השהייה בדלהי. במקום The Lalit, מ-16.10. כתובת: Bangla Sahib Road, Sector 4, Gole Market, New Delhi 110001. טלפון: +91 11 4250 0200.",
    "query": "The Metropolitan Hotel and Spa Bangla Sahib Road New Delhi"
   },
   {
@@ -15545,9 +15545,9 @@
   "ticketing/meta": 41
  },
  "snap": {
-  "hash": "a53e637b5dfd2a7b",
-  "at": "2026-11-09T09:44:12.513Z"
+  "hash": "7b3ed7ceb76d4b1d",
+  "at": "2026-11-10T00:35:15.732Z"
  },
- "digest": "2681412826a8",
- "built": "2026-11-09T16:13:16Z"
+ "digest": "ffb9decb70f7",
+ "built": "2026-11-10T04:09:26Z"
 }

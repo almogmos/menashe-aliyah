@@ -140,6 +140,8 @@ def build_olim(db):
         if part is None:
             sys.exit(f'ticketing/p{i}.json missing: export all of ticketing (meta, assign, p1..p6) together')
         people += part.get('people', [])
+    removed = {r.get('id') for r in meta.get('removed', [])}
+    people = [p for p in people if p.get('id') not in removed]  # same as the board: removed records stay in p1..p6 but are not counted
     if load(db, 'ticketing/assign.json') is None:
         sys.exit('ticketing/assign.json missing: export all of ticketing (meta, assign, p1..p6) together')
     if meta.get('total') is not None and len(people) != meta['total']:

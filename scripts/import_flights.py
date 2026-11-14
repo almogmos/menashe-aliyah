@@ -143,6 +143,7 @@ def main():
             sys.exit(f'sheet "{ws.title}": missing one of the name or passport columns')
         n = 0
         for r in rows:
+            r = tuple(r) + (None,) * (len(h) - len(r))  # read-only mode drops trailing empty cells
             pp = clean(r[ip]).replace(' ', '').upper()
             if not pp:
                 continue

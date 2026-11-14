@@ -9,7 +9,8 @@ Writes <db_dir>/roster.json. Only these fields leave the workbook, per person:
   en  full name in English (given name + family name)
   pp4 last 4 characters of the passport number
   file family file number (e.g. M290/25); the page shows it only inside one flight
-  sg  domestic group (from the "הערות הסעים" column, e.g. "6ב"), when the workbook has it
+  sg  domestic group (from the "הערות הסעים" column, e.g. "6ב"), when the workbook has it; the board's manual
+      choice in <db_dir>/ticketing/assign.json wins when it names a group of the same flight
   df  domestic flight id from <db_dir>/ticketing/domestic.json, or "delhi" for olim already in Delhi
 Birth dates, parents, addresses, phones, notes and documents are never written out.
 Birth dates are read only to count infants per domestic flight.
@@ -118,6 +119,12 @@ def main():
     by_date = {fl['date'][5:]: fl['f'] for fl in flights}  # 'MM-DD' -> flight number
     sg_dom = {s['id']: s['dom'] for s in subgroups}
     sg_order = {s['id']: i for i, s in enumerate(subgroups)}
+    sg_flight = {s['id']: s.get('f') for s in subgroups}
+    amap = {}
+    amap_path = os.path.join(db, 'ticketing', 'assign.json')
+    if os.path.exists(amap_path):
+        with open(amap_path, encoding='utf8') as f:
+            amap = (json.load(f) or {}).get('map', {})
     plan_path = os.path.join(db, 'ticketing', 'domestic.json')
     plan = None
     if os.path.exists(plan_path):
@@ -160,6 +167,9 @@ def main():
             if fileno:
                 rec['file'] = fileno
             sg = clean(r[isg]).split('-')[0] if isg is not None else ''
+            # the board's manual group choice wins over the workbook column (same flight only), so the page mirrors the board
+            if sg and amap.get(fileno) in sg_dom and sg_flight.get(amap[fileno]) == fno:
+                sg = amap[fileno]
             if sg:
                 if sg not in sg_dom:
                     sys.exit(f'sheet "{ws.title}": group "{sg}" is not one of the board subgroups')
